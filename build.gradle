@@ -47,7 +47,6 @@ plugins {
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'com.dropbox.affectedmoduledetector'
 
-// TODO do we need?
 tasks.withType(DokkaMultiModuleTask).configureEach {
     outputDirectory = rootProject.file('docs/api')
     failOnWarning = true
@@ -198,7 +197,7 @@ subprojects {
                 sourceLink {
                     localDirectory.set(project.file("src/main/java"))
                     // URL showing where the source code can be accessed through the web browser
-                    remoteUrl.set(new URL("https://github.com/google/android-catalog-framework/blob/main/${project.name}/src/main/java"))
+                    remoteUrl.set(new URL("https://github.com/google/casa-android/blob/main/${project.name}/src/main/java"))
                     // Suffix which is used to append the line number to the URL. Use #L for GitHub
                     remoteLineSuffix.set("#L")
                 }

@@ -13,7 +13,7 @@ on:
 jobs:
   android-test:
     runs-on: macos-latest
-    if: github.repository == 'google/android-catalog-framework'
+    if: github.repository == 'google/casa-android'
     timeout-minutes: 80
 
     strategy:

@@ -27,3 +27,5 @@ dependencies {
     implementation(project(":framework:annotations"))
     implementation libs.google.ksp.api
 }
+
+apply plugin: "com.vanniktech.maven.publish"

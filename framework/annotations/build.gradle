@@ -19,3 +19,5 @@ apply plugin: 'kotlin'
 dependencies {
     api 'javax.inject:javax.inject:1'
 }
+
+apply plugin: "com.vanniktech.maven.publish"
