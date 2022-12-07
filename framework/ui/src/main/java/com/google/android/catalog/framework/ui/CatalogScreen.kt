@@ -114,7 +114,7 @@ internal fun CatalogScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             item {
-                FilterTabRow(categories.keys.toList(), selectedFilters) {
+                FilterTabRow(categories.keys.sorted(), selectedFilters) {
                     if (selectedFilters.contains(it)) {
                         selectedFilters.remove(it)
                     } else {
