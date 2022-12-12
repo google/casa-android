@@ -60,6 +60,9 @@ dependencies {
     implementation(project(":framework:base"))
     ksp(project(":framework:processor"))
 
+    // Needed for app startup initialization logic
+    api libs.androidx.startup
+
     implementation libs.hilt.android
     kapt libs.hilt.compiler
 

@@ -16,8 +16,47 @@
 
 package com.google.android.catalog.app.activity
 
+import android.content.Context
+import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.startup.Initializer
 import com.google.android.catalog.framework.annotations.Sample
 
 @Sample(name = "Activity sample", description = "A sample that uses an Activity as target")
-class ActivitySample: ComponentActivity(R.layout.activity_sample)
+class ActivitySample : ComponentActivity(R.layout.activity_sample) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ActivitySampleDependency.instance.doSomething()
+    }
+}
+
+/**
+ * Example on how to initialize a component required by this sample without having to access root
+ * application class
+ */
+class ActivitySampleInitializer : Initializer<ActivitySampleDependency> {
+    override fun create(context: Context): ActivitySampleDependency {
+        return ActivitySampleDependency.init()
+    }
+
+    override fun dependencies(): List<Class<out Initializer<*>>> {
+        // Add any dependencies needed in the create method
+        return emptyList()
+    }
+}
+
+/**
+ * Dummy component to showcase dependency initialization for this sample
+ */
+class ActivitySampleDependency private constructor() {
+    companion object {
+
+        lateinit var instance: ActivitySampleDependency
+        fun init(): ActivitySampleDependency {
+            instance = ActivitySampleDependency()
+            return instance
+        }
+    }
+
+    fun doSomething() = println("Hello!")
+}

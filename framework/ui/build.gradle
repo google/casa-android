@@ -83,7 +83,9 @@ android {
 }
 
 dependencies {
+    // Include framework base module
     api(project(":framework:base"))
+    // Minimal compose dependencies
     api libs.compose.runtime.runtime
 
     implementation libs.androidx.core
