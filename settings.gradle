@@ -1,11 +1,11 @@
 /*
- * Copyright 2022 Google LLC
+ * Copyright 2020 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,9 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        mavenLocal()
+    }
+}
 
 plugins {
     id 'com.gradle.enterprise' version '3.10.1'
+    id 'com.google.android.catalog.framework.plugin' version '0.1.1-SNAPSHOT'
 }
 
 gradleEnterprise {
@@ -30,23 +39,9 @@ include ':framework:base'
 include ':framework:ui'
 include ':framework:annotations'
 include ':framework:processor'
+include ':framework:plugin'
 
-// Dynamically include samples under /app-catalog/samples/ folder
-def samples = []
-
-// Find all build.gradle files under samples folder
-settingsDir.traverse(nameFilter: "build.gradle") {
-    def path = it.parent.substring(rootDir.path.length())
-    if (path.contains("/app-catalog/samples/")) {
-        // convert the module path into gradle module notation
-        samples.add(path.replaceAll("/", ":"))
-    }
-}
-
-// include all available samples and store it in the global variable.
-println("Included samples: $samples")
-include(*samples)
-gradle.ext.samples = samples
+gradle.ext.samples = settings.ext.find("samples")
 
 
 // Enable Gradle's version catalog support
