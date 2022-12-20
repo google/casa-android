@@ -48,17 +48,19 @@ internal fun CatalogTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val context = LocalContext.current
     val colorScheme = when {
-        dynamicColor && darkTheme -> dynamicDarkColorScheme(context)
-        dynamicColor && !darkTheme -> dynamicLightColorScheme(context)
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> if (darkTheme) {
+            dynamicDarkColorScheme(context)
+        } else {
+            dynamicLightColorScheme(context)
+        }
+
         darkTheme -> CatalogDarkColorScheme
         else -> CatalogLightColorScheme
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
-        content = content
+        colorScheme = colorScheme, content = content
     )
 }
