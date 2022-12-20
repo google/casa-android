@@ -1,0 +1,46 @@
+// Signature format: 4.0
+package com.google.android.catalog.framework.ui {
+
+  public class CatalogActivity extends androidx.fragment.app.FragmentActivity {
+    ctor public CatalogActivity();
+    method public final java.util.Set<com.google.android.catalog.framework.base.CatalogSample> getCatalogSamples();
+    method public final void setCatalogSamples(java.util.Set<com.google.android.catalog.framework.base.CatalogSample> catalogSamples);
+    property public final java.util.Set<com.google.android.catalog.framework.base.CatalogSample> catalogSamples;
+    field @javax.inject.Inject public java.util.Set<com.google.android.catalog.framework.base.CatalogSample> catalogSamples;
+  }
+
+  public final class CatalogNavigationKt {
+    method @androidx.compose.runtime.Composable public static void CatalogNavigation(java.util.Set<com.google.android.catalog.framework.base.CatalogSample> samples, androidx.fragment.app.FragmentManager fragmentManager);
+  }
+
+  public final class CatalogScreenKt {
+  }
+
+}
+
+package com.google.android.catalog.framework.ui.components {
+
+  public final class CardItemKt {
+  }
+
+  public final class FilterTabRowKt {
+  }
+
+  public final class FragmentContainerKt {
+  }
+
+  public final class SearchTopAppBarKt {
+  }
+
+}
+
+package com.google.android.catalog.framework.ui.theme {
+
+  public final class ColorKt {
+  }
+
+  public final class ThemeKt {
+  }
+
+}
+

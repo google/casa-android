@@ -1,0 +1,53 @@
+// Signature format: 4.0
+package com.google.android.catalog.framework.base {
+
+  public final class CatalogSample {
+    ctor public CatalogSample(String name, String description, String path, com.google.android.catalog.framework.base.CatalogTarget target);
+    method public String component1();
+    method public String component2();
+    method public String component3();
+    method public com.google.android.catalog.framework.base.CatalogTarget component4();
+    method public com.google.android.catalog.framework.base.CatalogSample copy(String name, String description, String path, com.google.android.catalog.framework.base.CatalogTarget target);
+    method public String getDescription();
+    method public String getName();
+    method public String getPath();
+    method public com.google.android.catalog.framework.base.CatalogTarget getTarget();
+    property public final String description;
+    property public final String name;
+    property public final String path;
+    property public final com.google.android.catalog.framework.base.CatalogTarget target;
+  }
+
+  public abstract sealed class CatalogTarget {
+  }
+
+  public static final class CatalogTarget.TargetActivity extends com.google.android.catalog.framework.base.CatalogTarget {
+    ctor public CatalogTarget.TargetActivity(kotlin.reflect.KClass<? extends android.app.Activity> targetClass);
+    method public kotlin.reflect.KClass<? extends android.app.Activity> component1();
+    method public com.google.android.catalog.framework.base.CatalogTarget.TargetActivity copy(kotlin.reflect.KClass<? extends android.app.Activity> targetClass);
+    method public kotlin.reflect.KClass<? extends android.app.Activity> getTargetClass();
+    property public final kotlin.reflect.KClass<? extends android.app.Activity> targetClass;
+  }
+
+  public static final class CatalogTarget.TargetComposable extends com.google.android.catalog.framework.base.CatalogTarget {
+    ctor public CatalogTarget.TargetComposable(kotlin.jvm.functions.Function0<kotlin.Unit> composable);
+    method public kotlin.jvm.functions.Function0<kotlin.Unit> getComposable();
+    property public final kotlin.jvm.functions.Function0<kotlin.Unit> composable;
+  }
+
+  public static final class CatalogTarget.TargetFragment extends com.google.android.catalog.framework.base.CatalogTarget {
+    ctor public CatalogTarget.TargetFragment(kotlin.reflect.KClass<? extends androidx.fragment.app.Fragment> targetClass);
+    method public kotlin.reflect.KClass<? extends androidx.fragment.app.Fragment> component1();
+    method public com.google.android.catalog.framework.base.CatalogTarget.TargetFragment copy(kotlin.reflect.KClass<? extends androidx.fragment.app.Fragment> targetClass);
+    method public kotlin.reflect.KClass<? extends androidx.fragment.app.Fragment> getTargetClass();
+    property public final kotlin.reflect.KClass<? extends androidx.fragment.app.Fragment> targetClass;
+  }
+
+  public final class CatalogTargetKt {
+    method public static inline <reified T extends android.app.Activity> com.google.android.catalog.framework.base.CatalogTarget.TargetActivity! targetActivity();
+    method public static com.google.android.catalog.framework.base.CatalogTarget.TargetComposable targetComposable(kotlin.jvm.functions.Function0<kotlin.Unit> block);
+    method public static inline <reified T extends androidx.fragment.app.Fragment> com.google.android.catalog.framework.base.CatalogTarget.TargetFragment! targetFragment();
+  }
+
+}
+

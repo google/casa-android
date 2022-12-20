@@ -1,0 +1,18 @@
+// Signature format: 4.0
+package com.google.android.catalog.framework.processor {
+
+  public final class SampleProcessor implements com.google.devtools.ksp.processing.SymbolProcessor {
+    ctor public SampleProcessor(com.google.devtools.ksp.processing.CodeGenerator codeGenerator, com.google.devtools.ksp.processing.KSPLogger logger, java.util.Map<java.lang.String,java.lang.String> options);
+    method public java.util.List<com.google.devtools.ksp.symbol.KSAnnotated> process(com.google.devtools.ksp.processing.Resolver resolver);
+  }
+
+  public final class SampleProcessorKt {
+  }
+
+  public final class SampleProcessorProvider implements com.google.devtools.ksp.processing.SymbolProcessorProvider {
+    ctor public SampleProcessorProvider();
+    method public com.google.devtools.ksp.processing.SymbolProcessor create(com.google.devtools.ksp.processing.SymbolProcessorEnvironment environment);
+  }
+
+}
+
