@@ -5,7 +5,7 @@ dynamically including all available samples into a single activity.
 
 > 🚧 Work in-progress: this library is under heavy development, APIs might change frequently
 
-## How to
+## How to use it
 
 Create a project with the following structure (settings.gradle):
 
@@ -18,8 +18,7 @@ include ':samples:sampleTwo'
 
 ### Set up app module
 
-In the app module include the framework dependencies, Hilt and KAPT plugins in the app's
-build.gradle
+In the app module include the framework dependencies, Hilt and KAPT plugins in the app's `build.gradle`:
 
 ```groovy
 plugins {
@@ -53,7 +52,7 @@ class MainApp : Application()
 class MainActivity : CatalogActivity()
 ```
 
-Don't forget to declare them in the `AndroidManifest.xml`
+Don't forget to declare them in the `AndroidManifest.xml` like the below:
 
 ```xml
 
@@ -100,9 +99,7 @@ dependencies {
 }
 ```
 
-Then create as main entry points as desired by annotating any composable function, activity or
-fragment
-with the `@Sample` annotation:
+Then create as main entry points as desired by annotating any composable function, activity or fragment with the `@Sample` annotation:
 
 ```kotlin
 @Sample(name = "Compose sample", "Shows how to add a compose target in the catalog")
