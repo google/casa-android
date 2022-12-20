@@ -58,7 +58,6 @@ affectedModuleDetector {
             "gradle/libs.versions.toml",
     ]
     excludedModules = [
-            "sample"
     ]
 
     logFilename = "output.log"

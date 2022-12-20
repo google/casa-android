@@ -16,6 +16,10 @@
 
 apply plugin: 'kotlin'
 
+affectedTestConfiguration {
+    jvmTestTask = "test"
+}
+
 dependencies {
     api 'javax.inject:javax.inject:1'
 }

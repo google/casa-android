@@ -23,6 +23,10 @@ compileKotlin {
     }
 }
 
+affectedTestConfiguration {
+    jvmTestTask = "test"
+}
+
 dependencies {
     implementation(project(":framework:annotations"))
     implementation libs.google.ksp.api
