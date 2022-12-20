@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
-}
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: "com.google.devtools.ksp"
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-    namespace 'com.google.android.catalog.app'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.google.android.catalog.app"
         minSdk 26
         targetSdk 33
         versionCode 1
@@ -35,12 +32,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -50,32 +41,41 @@ android {
     }
 
     buildFeatures {
-        buildConfig false
+        // Determines whether to generate a BuildConfig class.
+        buildConfig = false
+        // Determines whether to support View Binding.
+        // Note that the viewBinding.enabled property is now deprecated.
+        viewBinding = false
+        // Determines whether to support Data Binding.
+        // Note that the dataBinding.enabled property is now deprecated.
+        dataBinding = false
+        // Determines whether to generate binder classes for your AIDL files.
+        aidl = false
+        // Determines whether to support RenderScript.
+        renderScript = false
+        // Determines whether to support injecting custom variables into the module's R class.
+        resValues = true
+        // Enable compose
         compose true
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion libs.versions.composeCompiler.get()
     }
-
-    lintOptions {
-        textReport true
-        textOutput 'stdout'
-        // We run a full lint analysis as build part in CI, so skip vital checks for assemble tasks
-        checkReleaseBuilds false
-    }
 }
 
 dependencies {
-    // CASA UI dependency for the app-module
-    implementation(project(":framework:ui"))
+    // CASA dependencies for sample-modules
+    implementation(project(":framework:base"))
+    ksp(project(":framework:processor"))
 
     // Required by CASA to generate the wiring logic
     implementation libs.hilt.android
     kapt libs.hilt.compiler
 
-    // Include all available samples dynamically importend in settings.gradle
-    gradle.ext.samples.each {
-        implementation project("$it")
-    }
+    // Some common dependencies between samples
+    implementation libs.androidx.core
+    implementation libs.compose.foundation.foundation
+    implementation libs.compose.ui.ui
+    implementation libs.compose.material3
 }

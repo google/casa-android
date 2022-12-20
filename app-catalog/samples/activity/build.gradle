@@ -14,50 +14,15 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'com.google.devtools.ksp'
-    id 'dagger.hilt.android.plugin'
-}
+apply from: "$rootDir/gradle/sample-build.gradle"
 
 android {
     namespace 'com.google.android.catalog.app.activity'
-    compileSdk 33
-
-    defaultConfig {
-        minSdk 26
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-
-    buildFeatures {
-        buildConfig false
-    }
 }
 
 dependencies {
-    implementation(project(":framework:base"))
-    ksp(project(":framework:processor"))
-
     // Needed for app startup initialization logic
     api libs.androidx.startup
-
-    implementation libs.hilt.android
-    kapt libs.hilt.compiler
-
     implementation libs.androidx.core
     implementation libs.androidx.activity
 }
