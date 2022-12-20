@@ -48,7 +48,8 @@ import com.google.android.catalog.framework.ui.components.SearchTopAppBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun CatalogScreen(
-    catalogSamples: List<CatalogSample>, launchSample: (CatalogSample) -> Unit
+    catalogSamples: List<CatalogSample>,
+    launchSample: (CatalogSample) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
     var searchState by remember {

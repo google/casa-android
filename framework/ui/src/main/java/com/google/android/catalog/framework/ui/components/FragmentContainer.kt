@@ -29,7 +29,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 
-
 @Composable
 internal fun FragmentContainer(
     modifier: Modifier = Modifier,

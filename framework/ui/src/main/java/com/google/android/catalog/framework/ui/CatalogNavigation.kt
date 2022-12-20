@@ -31,7 +31,6 @@ import com.google.android.catalog.framework.base.CatalogSample
 import com.google.android.catalog.framework.base.CatalogTarget
 import com.google.android.catalog.framework.ui.components.FragmentContainer
 
-
 private const val HOME_DESTINATION = "home"
 
 @Composable

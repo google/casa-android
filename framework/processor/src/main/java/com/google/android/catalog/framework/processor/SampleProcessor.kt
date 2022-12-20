@@ -20,8 +20,16 @@ import com.google.android.catalog.framework.annotations.Sample
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAllSuperTypes
 import com.google.devtools.ksp.getAnnotationsByType
-import com.google.devtools.ksp.processing.*
-import com.google.devtools.ksp.symbol.*
+import com.google.devtools.ksp.processing.CodeGenerator
+import com.google.devtools.ksp.processing.Dependencies
+import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.processing.Resolver
+import com.google.devtools.ksp.processing.SymbolProcessor
+import com.google.devtools.ksp.symbol.FileLocation
+import com.google.devtools.ksp.symbol.KSAnnotated
+import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSDeclaration
+import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.validate
 
 /**
@@ -54,8 +62,8 @@ class SampleProcessor(
     override fun finish() {
         functions.forEach { declaration ->
             require(
-                declaration.annotations.any { it.shortName.asString() == "Composable" }
-                    && declaration.parameters.isEmpty()
+                declaration.annotations.any { it.shortName.asString() == "Composable" } &&
+                    declaration.parameters.isEmpty()
             ) {
                 "@Sample must be a in a Composable function with empty parameters"
             }

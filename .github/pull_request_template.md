@@ -1,1 +1,1 @@
-### Please add the library name to the PR title. Example: "[Preview] Fixes typo" ###
+### Please add a descriptive PR title ###

@@ -38,7 +38,9 @@ import java.util.Locale
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 internal fun FilterTabRow(
-    filters: List<String>, selectedFilters: List<String>, onSelectFilter: (String) -> Unit
+    filters: List<String>,
+    selectedFilters: List<String>,
+    onSelectFilter: (String) -> Unit
 ) {
     if (filters.isEmpty()) return
 
@@ -50,23 +52,28 @@ internal fun FilterTabRow(
     ) {
         items(filters) { filter ->
             val selected = selectedFilters.contains(filter)
-            FilterChip(selected = selected, onClick = { onSelectFilter(filter) }, label = {
-                Text(filter.replaceFirstChar {
-                    if (it.isLowerCase()) it.titlecase(
-                        Locale.getDefault()
-                    ) else it.toString()
-                })
-            }, leadingIcon = if (selected) {
-                {
-                    Icon(
-                        imageVector = Icons.Rounded.Done,
-                        contentDescription = "Filter for $filter",
-                        modifier = Modifier.size(FilterChipDefaults.IconSize)
-                    )
+            FilterChip(
+                selected = selected, onClick = { onSelectFilter(filter) }, label = {
+                Text(
+                    filter.replaceFirstChar {
+                        if (it.isLowerCase()) it.titlecase(
+                            Locale.getDefault()
+                        ) else it.toString()
+                    }
+                )
+            },
+                leadingIcon = if (selected) {
+                    {
+                        Icon(
+                            imageVector = Icons.Rounded.Done,
+                            contentDescription = "Filter for $filter",
+                            modifier = Modifier.size(FilterChipDefaults.IconSize)
+                        )
+                    }
+                } else {
+                    null
                 }
-            } else {
-                null
-            })
+            )
         }
     }
 }
