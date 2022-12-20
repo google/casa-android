@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.catalog.app.compose
+package com.google.android.catalog.app.multiple
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

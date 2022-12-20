@@ -53,14 +53,6 @@ android {
     }
 }
 
-// Makes generated code visible to IDE
-kotlin.sourceSets.main {
-    kotlin.srcDirs(
-            file("$buildDir/generated/ksp/debug/kotlin"),
-            file("$buildDir/generated/ksp/release/kotlin"),
-            )
-}
-
 dependencies {
     implementation(project(":framework:base"))
     ksp(project(":framework:processor"))
