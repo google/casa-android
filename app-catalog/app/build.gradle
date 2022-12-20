@@ -78,4 +78,7 @@ dependencies {
     gradle.ext.samples.each {
         implementation project("$it")
     }
+
+    androidTestImplementation libs.androidx.test.runner
+    testImplementation libs.androidx.test.runner
 }

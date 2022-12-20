@@ -87,6 +87,9 @@ dependencies {
 
     compileOnly libs.androidx.fragment
     compileOnly libs.compose.runtime.runtime
+
+    androidTestImplementation libs.androidx.test.runner
+    testImplementation libs.androidx.test.runner
 }
 
 apply plugin: "com.vanniktech.maven.publish"
