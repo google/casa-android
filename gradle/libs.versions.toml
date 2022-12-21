@@ -29,6 +29,7 @@ coroutines = "1.6.0"
 hilt = "2.44.2"
 androidxtest = "1.4.0"
 navigation = "2.5.3"
+accompanist = "0.27.1"
 
 [libraries]
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "gradlePlugin" }
@@ -61,6 +62,7 @@ compose-material-iconsext = { module = "androidx.compose.material:material-icons
 compose-animation-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
 
 compose-material3 = "androidx.compose.material3:material3:1.0.1"
+accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
 
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-stdlibJdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
