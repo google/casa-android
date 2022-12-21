@@ -19,4 +19,5 @@
     <string name="source_base_url">https://github.com/google/casa-android/tree/main/app-catalog/samples/%1$s</string>
     <string name="documentation_base_url">https://github.com/google/casa-android</string>
     <string name="bug_report_url">https://github.com/google/casa-android/issues/new?assignees=&amp;labels=&amp;template=bug_report.md&amp;title=%1$s</string>
+    <string name="owner_base_url">https://github.com/%1$s</string>
 </resources>

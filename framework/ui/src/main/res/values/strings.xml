@@ -19,4 +19,5 @@
     <string name="source_base_url" />
     <string name="documentation_base_url" />
     <string name="bug_report_url" />
+    <string name="owner_base_url" />
 </resources>
