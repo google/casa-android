@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -138,6 +139,21 @@ fun CatalogTopAppBar(
                         onClick = { launchUrl(bugUrl) },
                         text = { Text(text = "Report bug") }
                     )
+                    selectedSample?.owners?.forEach { owner ->
+                        val ownerUrl = stringResource(
+                            id = R.string.owner_base_url, owner
+                        )
+                        DropdownMenuItem(
+                            onClick = { launchUrl(ownerUrl) },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Rounded.AccountCircle,
+                                    contentDescription = "Contact owner"
+                                )
+                            },
+                            text = { Text(text = owner) }
+                        )
+                    }
                 }
             }
         },
