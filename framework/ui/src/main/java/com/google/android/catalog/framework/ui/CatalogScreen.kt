@@ -101,7 +101,7 @@ internal fun CatalogScreen(
                 }
             }
             items(displayedSamples) {
-                CardItem(it.name, it.description) {
+                CardItem(it.name, it.description, it.tags) {
                     launchSample(it)
                     searchState = false
                 }

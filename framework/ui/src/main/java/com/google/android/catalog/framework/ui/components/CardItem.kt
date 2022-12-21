@@ -16,6 +16,7 @@
 
 package com.google.android.catalog.framework.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,11 +32,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.flowlayout.FlowRow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun CardItem(label: String, description: String = "", onItemClick: () -> Unit) {
+internal fun CardItem(
+    label: String,
+    description: String = "",
+    tags: List<String> = emptyList(),
+    onItemClick: () -> Unit
+) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -53,7 +61,25 @@ internal fun CardItem(label: String, description: String = "", onItemClick: () -
                 Text(text = label, style = MaterialTheme.typography.labelLarge)
                 Icon(Icons.Rounded.ArrowForward, "Forward")
             }
-            Text(text = description)
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
+                text = description
+            )
+            FlowRow(mainAxisSpacing = 4.dp, crossAxisSpacing = 2.dp) {
+                tags.forEach { tag ->
+                    Text(
+                        modifier = Modifier
+                            .clip(MaterialTheme.shapes.medium)
+                            .background(MaterialTheme.colorScheme.primary)
+                            .padding(6.dp),
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        style = MaterialTheme.typography.labelSmall,
+                        text = tag
+                    )
+                }
+            }
         }
     }
 }
