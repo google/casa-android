@@ -101,7 +101,7 @@ class SampleProcessor(
 
     @OptIn(KspExperimental::class)
     private fun createModule(functionSample: KSDeclaration, target: String) {
-        val samplePath = getSamplePath(functionSample)
+        val filePath = getRelativeFilePath(functionSample)
         val sample = functionSample.getAnnotationsByType(Sample::class).first()
         val packageName = functionSample.packageName.asString()
         val sampleFile = functionSample.simpleName.asString()
@@ -122,8 +122,8 @@ class SampleProcessor(
                     sampleName = sample.name,
                     sampleDescription = sample.description,
                     sampleDocs = sample.documentation,
-                    sampleSource = sample.sourcePath,
-                    samplePath = samplePath,
+                    sampleSource = sample.sourcePath.ifBlank { filePath },
+                    samplePath = filePath.substringBefore("/src"),
                     sampleTarget = target
                 ).toByteArray()
             )
@@ -133,9 +133,9 @@ class SampleProcessor(
     private fun KSDeclaration.toFullPath() =
         "${packageName.asString()}.${simpleName.asString()}"
 
-    private fun getSamplePath(declaration: KSDeclaration): String {
+    private fun getRelativeFilePath(declaration: KSDeclaration): String {
         val path = (declaration.location as? FileLocation)?.filePath.orEmpty()
-        return path.substringAfterLast("/samples/").substringBefore("/src")
+        return path.substringAfterLast("/samples/")
     }
 }
 
