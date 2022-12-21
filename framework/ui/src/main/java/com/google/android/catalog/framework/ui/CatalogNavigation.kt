@@ -17,8 +17,13 @@
 package com.google.android.catalog.framework.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.FragmentManager
@@ -29,6 +34,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.android.catalog.framework.base.CatalogSample
 import com.google.android.catalog.framework.base.CatalogTarget
+import com.google.android.catalog.framework.ui.components.CatalogTopAppBar
 import com.google.android.catalog.framework.ui.components.FragmentContainer
 
 private const val HOME_DESTINATION = "home"
@@ -50,28 +56,39 @@ fun CatalogNavigation(samples: Set<CatalogSample>, fragmentManager: FragmentMana
 
         // Add all the samples
         samples.forEach { sample ->
-            addTargets(sample, fragmentManager)
+            addTargets(sample, fragmentManager) {
+                navController.popBackStack()
+            }
         }
     }
 }
 
-private fun NavGraphBuilder.addTargets(sample: CatalogSample, fragmentManager: FragmentManager) {
+@OptIn(ExperimentalMaterial3Api::class)
+private fun NavGraphBuilder.addTargets(
+    sample: CatalogSample,
+    fragmentManager: FragmentManager,
+    onBackClick: () -> Unit
+) {
     when (val target = sample.target) {
         is CatalogTarget.TargetComposable -> {
             composable(sample.name) {
-                target.composable()
+                SampleScaffold(sample = sample, onBackClick = onBackClick) {
+                    target.composable()
+                }
             }
         }
 
         is CatalogTarget.TargetFragment -> {
             composable(sample.name) {
-                FragmentContainer(
-                    modifier = Modifier.fillMaxSize(),
-                    fragmentManager = fragmentManager,
-                    commit = { id ->
-                        add(id, target.targetClass.java.newInstance())
-                    }
-                )
+                SampleScaffold(sample = sample, onBackClick = onBackClick) {
+                    FragmentContainer(
+                        modifier = Modifier.fillMaxSize(),
+                        fragmentManager = fragmentManager,
+                        commit = { id ->
+                            add(id, target.targetClass.java.newInstance())
+                        }
+                    )
+                }
             }
         }
 
@@ -81,5 +98,21 @@ private fun NavGraphBuilder.addTargets(sample: CatalogSample, fragmentManager: F
                 activityClass = target.targetClass
             }
         }
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun SampleScaffold(
+    sample: CatalogSample,
+    onBackClick: () -> Unit,
+    content: @Composable BoxScope.() -> Unit
+) {
+    Scaffold(topBar = {
+        CatalogTopAppBar(
+            selectedSample = sample, onBackClick = onBackClick
+        )
+    }) {
+        Box(modifier = Modifier.padding(it), content = content)
     }
 }

@@ -23,7 +23,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.android.catalog.framework.annotations.Sample
 
-@Sample(name = "Compose sample", "Shows how to add a compose target in the catalog")
+@Sample(
+    name = "Compose sample",
+    description = "Shows how to add a compose target in the catalog",
+    documentation = "https://github.com/google/casa-android#create-sample-modules",
+    sourcePath = "compose/src/main/java/com/google.android.catalog.app.compose/ComposeSample.kt"
+)
 @Composable
 fun ComposeSample() {
     Box(Modifier.fillMaxSize()) {

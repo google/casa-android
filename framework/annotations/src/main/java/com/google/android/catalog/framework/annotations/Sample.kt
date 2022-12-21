@@ -16,7 +16,23 @@
 
 package com.google.android.catalog.framework.annotations
 
+/**
+ * Add this annotation to a parameterless `@Compose` function, fragment or activity classes to
+ * create a new sample entry-point that will be automatically included in the Catalog app.
+ *
+ * @param name a name to use when displaying the sample
+ * @param description a description to use when displaying the sample
+ * @param documentation an optional documentation link, it can be absolute or relative to the
+ * provided `documentation_base_url` resource ID.
+ * @param sourcePath an optional source code path, it can be absolute or relative to the
+ * provided `source_base_url` resource ID.
+ */
 @MustBeDocumented
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
-annotation class Sample(val name: String, val description: String)
+annotation class Sample(
+    val name: String,
+    val description: String,
+    val documentation: String = "",
+    val sourcePath: String = "",
+)
