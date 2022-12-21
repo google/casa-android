@@ -110,8 +110,10 @@ fun CatalogTopAppBar(
                     } else {
                         stringResource(id = R.string.source_base_url)
                     }
-                    DropdownMenuItem(onClick = { launchUrl(sourceUrl) },
-                        text = { Text(text = "Source code") })
+                    DropdownMenuItem(
+                        onClick = { launchUrl(sourceUrl) },
+                        text = { Text(text = "Source code") }
+                    )
 
                     val docsUrl = if (selectedSample != null) {
                         if (selectedSample.documentation.startsWith("http")) {
@@ -124,14 +126,18 @@ fun CatalogTopAppBar(
                     } else {
                         stringResource(R.string.documentation_base_url)
                     }
-                    DropdownMenuItem(onClick = { launchUrl(docsUrl) },
-                        text = { Text(text = "Documentation") })
+                    DropdownMenuItem(
+                        onClick = { launchUrl(docsUrl) },
+                        text = { Text(text = "Documentation") }
+                    )
 
                     val bugUrl = stringResource(
                         id = R.string.bug_report_url, selectedSample?.name.orEmpty()
                     )
-                    DropdownMenuItem(onClick = { launchUrl(bugUrl) },
-                        text = { Text(text = "Report bug") })
+                    DropdownMenuItem(
+                        onClick = { launchUrl(bugUrl) },
+                        text = { Text(text = "Report bug") }
+                    )
                 }
             }
         },
