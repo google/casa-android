@@ -121,6 +121,8 @@ class SampleProcessor(
                     samplePackage = packageName,
                     sampleName = sample.name,
                     sampleDescription = sample.description,
+                    sampleDocs = sample.documentation,
+                    sampleSource = sample.sourcePath,
                     samplePath = samplePath,
                     sampleTarget = target
                 ).toByteArray()
@@ -142,6 +144,8 @@ private fun sampleTemplate(
     samplePackage: String,
     sampleName: String,
     sampleDescription: String,
+    sampleDocs: String,
+    sampleSource: String,
     samplePath: String,
     sampleTarget: String
 ) = """
@@ -165,6 +169,8 @@ class ${sampleFile}Module {
         return CatalogSample(
             "$sampleName",
             "$sampleDescription",
+            "$sampleDocs",
+            "$sampleSource",
             "$samplePath",
             $sampleTarget
         )
