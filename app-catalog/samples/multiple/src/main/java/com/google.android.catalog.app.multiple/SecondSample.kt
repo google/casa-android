@@ -23,7 +23,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.android.catalog.framework.annotations.Sample
 
-@Sample(name = "Second sample", "Shows how a sample folder can have multiple samples")
+@Sample(
+    name = "Second sample",
+    description = "Shows how a sample folder can have multiple samples",
+    tags = ["tag1"],
+    owners = ["marcelpinto"]
+)
 @Composable
 fun SecondSample() {
     Box(Modifier.fillMaxSize()) {

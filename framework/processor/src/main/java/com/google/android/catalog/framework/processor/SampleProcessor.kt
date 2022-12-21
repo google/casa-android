@@ -121,9 +121,11 @@ class SampleProcessor(
                     samplePackage = packageName,
                     sampleName = sample.name,
                     sampleDescription = sample.description,
+                    sampleTags = sample.tags,
                     sampleDocs = sample.documentation,
                     sampleSource = sample.sourcePath.ifBlank { filePath },
                     samplePath = filePath.substringBefore("/src"),
+                    sampleOwners = sample.owners,
                     sampleTarget = target
                 ).toByteArray()
             )
@@ -144,9 +146,11 @@ private fun sampleTemplate(
     samplePackage: String,
     sampleName: String,
     sampleDescription: String,
+    sampleTags: Array<String>,
     sampleDocs: String,
     sampleSource: String,
     samplePath: String,
+    sampleOwners: Array<String>,
     sampleTarget: String
 ) = """
 package $samplePackage
@@ -169,9 +173,11 @@ class ${sampleFile}Module {
         return CatalogSample(
             "$sampleName",
             "$sampleDescription",
+            listOf(${sampleTags.joinToString(",") { "\"$it\"" }}),
             "$sampleDocs",
             "$sampleSource",
             "$samplePath",
+            listOf(${sampleOwners.joinToString(",") { "\"$it\"" }}),
             $sampleTarget
         )
     }
