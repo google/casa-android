@@ -2,19 +2,25 @@
 package com.google.android.catalog.framework.base {
 
   public final class CatalogSample {
-    ctor public CatalogSample(String name, String description, String path, com.google.android.catalog.framework.base.CatalogTarget target);
+    ctor public CatalogSample(String name, String description, String documentation, String sourcePath, String path, com.google.android.catalog.framework.base.CatalogTarget target);
     method public String component1();
     method public String component2();
     method public String component3();
-    method public com.google.android.catalog.framework.base.CatalogTarget component4();
-    method public com.google.android.catalog.framework.base.CatalogSample copy(String name, String description, String path, com.google.android.catalog.framework.base.CatalogTarget target);
+    method public String component4();
+    method public String component5();
+    method public com.google.android.catalog.framework.base.CatalogTarget component6();
+    method public com.google.android.catalog.framework.base.CatalogSample copy(String name, String description, String documentation, String sourcePath, String path, com.google.android.catalog.framework.base.CatalogTarget target);
     method public String getDescription();
+    method public String getDocumentation();
     method public String getName();
     method public String getPath();
+    method public String getSourcePath();
     method public com.google.android.catalog.framework.base.CatalogTarget getTarget();
     property public final String description;
+    property public final String documentation;
     property public final String name;
     property public final String path;
+    property public final String sourcePath;
     property public final com.google.android.catalog.framework.base.CatalogTarget target;
   }
 
