@@ -54,6 +54,7 @@ three steps:
 1. Set up build.gradle
 2. Create the catalog activity and app classes
 3. Setup `AndroidManifest.xml`
+4. [Optional] provide sourcecode, documentation and bug report URLs
 
 In the app module's `build.gradle` include the framework dependencies, Hilt and KAPT plugins:
 
@@ -107,6 +108,22 @@ Finally, don't forget to declare them in the `AndroidManifest.xml`:
 </application>
 ```
 
+The framework provides quick access to the sourcecode, documentation or bug report of a sample in
+the default UI toolbar. 
+
+To enable it, provide the base URLs and use the `@Sample` annotation parameters
+
+```xml
+<resources>
+  <string name="app_name">app-catalog</string>
+  <string name="source_base_url">https://github.com/google/casa-android/tree/main/app-catalog/samples/%1$s</string>
+  <string name="documentation_base_url">https://github.com/google/casa-android</string>
+  <string name="bug_report_url">https://github.com/google/casa-android/issues/new?assignees=&amp;labels=&amp;template=bug_report.md&amp;title=%1$s</string>
+</resources>
+```
+
+> **Note:** the resources can take one optional string argument by adding %1$s.   
+
 ### Create sample modules
 
 Place any new samples under the samples folder and for each new module add the framework
@@ -140,12 +157,16 @@ Then create as many entry points as desired by annotating any composable functio
 fragment with the `@Sample` annotation:
 
 ```kotlin
-@Sample(name = "Compose sample", "Shows how to add a compose target in the catalog")
+@Sample(
+  name = "Compose sample",
+  description = "Shows how to add a compose target in the catalog",
+  documentation = "https://github.com/google/casa-android#create-sample-modules"
+)
 @Composable
 fun ComposeSample() {
-    Box(Modifier.fillMaxSize()) {
-        Text(text = "Hi, I am a compose sample target!")
-    }
+  Box(Modifier.fillMaxSize()) {
+    Text(text = "Hi, I am a compose sample target!")
+  }
 }
 ```
 
