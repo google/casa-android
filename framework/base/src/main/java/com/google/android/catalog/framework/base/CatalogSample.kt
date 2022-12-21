@@ -19,8 +19,10 @@ package com.google.android.catalog.framework.base
 data class CatalogSample(
     val name: String,
     val description: String,
+    val tags: List<String>,
     val documentation: String,
     val sourcePath: String,
     val path: String,
+    val owners: List<String>,
     val target: CatalogTarget
 )

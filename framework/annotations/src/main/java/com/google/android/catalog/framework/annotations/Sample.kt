@@ -22,10 +22,12 @@ package com.google.android.catalog.framework.annotations
  *
  * @param name a name to use when displaying the sample
  * @param description a description to use when displaying the sample
+ * @param tags keywords or labels to use when displaying the sample
  * @param documentation an optional documentation link, it can be absolute or relative to the
  * provided `documentation_base_url` resource ID.
  * @param sourcePath an optional source code path, it can be absolute or relative to the
  * provided `source_base_url` resource ID.
+ * @param owners an optional owners information, it can be used to show who proposed the sample
  */
 @MustBeDocumented
 @Retention(AnnotationRetention.SOURCE)
@@ -33,6 +35,8 @@ package com.google.android.catalog.framework.annotations
 annotation class Sample(
     val name: String,
     val description: String,
+    val tags: Array<String> = [],
     val documentation: String = "",
     val sourcePath: String = "",
+    val owners: Array<String> = []
 )
