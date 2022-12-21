@@ -108,7 +108,7 @@ Finally, don't forget to declare them in the `AndroidManifest.xml`:
 </application>
 ```
 
-The framework provides quick access to the sourcecode, documentation or bug report of a sample in
+The framework provides quick access to the sourcecode, documentation, bug report or owner of a sample in
 the default UI toolbar. 
 
 To enable it, provide the base URLs and use the `@Sample` annotation parameters
@@ -119,6 +119,10 @@ To enable it, provide the base URLs and use the `@Sample` annotation parameters
   <string name="source_base_url">https://github.com/google/casa-android/tree/main/app-catalog/samples/%1$s</string>
   <string name="documentation_base_url">https://github.com/google/casa-android</string>
   <string name="bug_report_url">https://github.com/google/casa-android/issues/new?assignees=&amp;labels=&amp;template=bug_report.md&amp;title=%1$s</string>
+  <!-- owner as github username -->
+  <string name="owner_base_url">https://github.com/%1$s</string>
+  <!-- owner as email -->
+  <string name="owner_base_url">mailto://%1$s</string>
 </resources>
 ```
 
