@@ -145,12 +145,6 @@ fun CatalogTopAppBar(
                         )
                         DropdownMenuItem(
                             onClick = { launchUrl(ownerUrl) },
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Rounded.AccountCircle,
-                                    contentDescription = "Contact owner"
-                                )
-                            },
                             text = { Text(text = owner) }
                         )
                     }
