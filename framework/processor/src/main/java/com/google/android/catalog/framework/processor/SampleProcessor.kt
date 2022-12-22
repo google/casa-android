@@ -20,6 +20,7 @@ import com.google.android.catalog.framework.annotations.Sample
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAllSuperTypes
 import com.google.devtools.ksp.getAnnotationsByType
+import com.google.devtools.ksp.isAnnotationPresent
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
@@ -53,7 +54,11 @@ class SampleProcessor(
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
         resolver.getSymbolsWithAnnotation(Sample::class.java.name)
-            .filter { (it is KSFunctionDeclaration || it is KSClassDeclaration) && it.validate() }
+            .filter {
+                (it is KSFunctionDeclaration || it is KSClassDeclaration) &&
+                    it.validate() &&
+                    !it.isAnnotationPresent(Deprecated::class)
+            }
             .forEach { it.accept(visitor, Unit) }
 
         return emptyList()
@@ -67,6 +72,7 @@ class SampleProcessor(
             ) {
                 "@Sample must be a in a Composable function with empty parameters"
             }
+
             createModule(
                 functionSample = declaration,
                 target = "targetComposable { ${declaration.toFullPath()}() }"
