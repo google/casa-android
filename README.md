@@ -71,7 +71,7 @@ android {
 }
 
 dependencies {
-    implementation "com.google.android.casa:casa-ui:$version"
+    implementation "com.google.android.catalog.framework:casa-ui:$version"
 
     implementation "com.google.dagger:hilt-android:2.44.2"
     kapt "com.google.dagger:hilt-android-compiler:2.44.2"
@@ -142,9 +142,17 @@ android {
     // your configuration
 }
 
+// See https://kotlinlang.org/docs/ksp-quickstart.html#make-ide-aware-of-generated-code
+kotlin {
+  sourceSets {
+    main.kotlin.srcDirs += 'build/generated/ksp/main/kotlin'
+    test.kotlin.srcDirs += 'build/generated/ksp/test/kotlin'
+  }
+}
+
 dependencies {
-    implementation "com.google.android.casa:casa-base:$version"
-    ksp "com.google.android.casa:casa-processor:$version"
+    implementation "com.google.android.catalog.framework:casa-base:$version"
+    ksp "com.google.android.catalog.framework:casa-processor:$version"
 
     implementation "com.google.dagger:hilt-android:2.44.2"
     kapt "com.google.dagger:hilt-android-compiler:2.44.2"
