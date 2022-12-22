@@ -27,7 +27,7 @@ import com.google.android.catalog.framework.annotations.Sample
     name = "Second sample",
     description = "Shows how a sample folder can have multiple samples",
     tags = ["tag1"],
-    owners = ["marcelpinto"]
+    owners = ["owner1"]
 )
 @Composable
 fun SecondSample() {
