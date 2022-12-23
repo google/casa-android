@@ -28,7 +28,7 @@ jobs:
       - name: set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: 17
 
       - name: Decrypt secrets
         run: release/signing-setup.sh ${{ secrets.ENCRYPT_KEY }}
@@ -99,7 +99,7 @@ jobs:
       - name: set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: 17
 
       - name: Decrypt secrets
         run: release/signing-setup.sh ${{ secrets.ENCRYPT_KEY }}
@@ -174,7 +174,7 @@ jobs:
       - name: set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: 17
 
       - name: Decrypt secrets
         run: release/signing-setup.sh ${{ secrets.ENCRYPT_KEY }}
