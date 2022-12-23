@@ -25,7 +25,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowForward
+import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -60,7 +60,7 @@ internal fun CardItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = label, style = MaterialTheme.typography.labelLarge)
-                Icon(Icons.Rounded.ArrowForward, "Forward")
+                Icon(Icons.Rounded.KeyboardArrowRight, "Forward")
             }
             Text(
                 modifier = Modifier

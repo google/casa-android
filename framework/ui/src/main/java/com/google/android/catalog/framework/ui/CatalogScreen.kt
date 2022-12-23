@@ -24,6 +24,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -51,14 +52,26 @@ internal fun CatalogScreen(
     var searchTerm by remember(searchState) {
         mutableStateOf("")
     }
-    val categories = catalogSamples.groupBy { it.path }
+    val categories = remember(catalogSamples) {
+        catalogSamples.groupBy { it.path }
+    }
+    val tags = remember(catalogSamples) {
+        catalogSamples.flatMap { it.tags }.distinct()
+    }
+    val filters by remember {
+        derivedStateOf {
+            (categories.keys + tags).sorted()
+        }
+    }
     val selectedFilters = remember { mutableStateListOf<String>() }
-    val displayedSamples = catalogSamples.filter {
+    val displayedSamples = catalogSamples.filter { sample ->
         if (searchTerm.isBlank()) {
-            selectedFilters.isEmpty() || selectedFilters.contains(it.path)
+            selectedFilters.isEmpty() ||
+                selectedFilters.contains(sample.path) ||
+                sample.tags.any { selectedFilters.contains(it) }
         } else {
-            it.name.contains(searchTerm, ignoreCase = true) ||
-                it.description.contains(searchTerm, ignoreCase = true)
+            sample.name.contains(searchTerm, ignoreCase = true) ||
+                sample.description.contains(searchTerm, ignoreCase = true)
         }
     }.sortedBy {
         it.name
@@ -92,7 +105,7 @@ internal fun CatalogScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             item {
-                FilterTabRow(categories.keys.sorted(), selectedFilters) {
+                FilterTabRow(filters, selectedFilters) {
                     if (selectedFilters.contains(it)) {
                         selectedFilters.remove(it)
                     } else {
