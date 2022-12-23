@@ -1,3 +1,5 @@
+[![Maven Central](https://img.shields.io/maven-central/v/com.google.android.catalog.framework/casa-ui)](https://search.maven.org/search?q=g:com.google.android.catalog.framework)
+
 # Catalog Android Sample App
 
 (CASA or "Home" in Spanish)
