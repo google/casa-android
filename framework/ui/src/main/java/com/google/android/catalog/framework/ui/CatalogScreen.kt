@@ -71,7 +71,8 @@ internal fun CatalogScreen(
                 sample.tags.any { selectedFilters.contains(it) }
         } else {
             sample.name.contains(searchTerm, ignoreCase = true) ||
-                sample.description.contains(searchTerm, ignoreCase = true)
+                sample.description.contains(searchTerm, ignoreCase = true) ||
+                sample.tags.any { it.equals(searchTerm, ignoreCase = true) }
         }
     }.sortedBy {
         it.name
