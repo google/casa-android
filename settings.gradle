@@ -1,3 +1,5 @@
+import java.util.regex.Matcher
+
 /*
  * Copyright 2022 Google LLC
  *
@@ -37,9 +39,10 @@ def samples = []
 // Find all build.gradle files under samples folder
 settingsDir.traverse(nameFilter: "build.gradle") {
     def path = it.parent.substring(rootDir.path.length())
-    if (path.contains("/app-catalog/samples/")) {
+    def separator = File.separator
+    if (path.contains("${separator}app-catalog${separator}samples${separator}")) {
         // convert the module path into gradle module notation
-        samples.add(path.replaceAll("/", ":"))
+        samples.add(path.replaceAll(Matcher.quoteReplacement(separator), ":"))
     }
 }
 
