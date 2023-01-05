@@ -6,11 +6,16 @@ package com.google.android.catalog.framework.ui {
     method public final java.util.Set<com.google.android.catalog.framework.base.CatalogSample> getCatalogSamples();
     method public final void setCatalogSamples(java.util.Set<com.google.android.catalog.framework.base.CatalogSample> catalogSamples);
     property public final java.util.Set<com.google.android.catalog.framework.base.CatalogSample> catalogSamples;
+    field public static final com.google.android.catalog.framework.ui.CatalogActivity.Companion Companion;
+    field public static final String KEY_START = "start";
     field @javax.inject.Inject public java.util.Set<com.google.android.catalog.framework.base.CatalogSample> catalogSamples;
   }
 
+  public static final class CatalogActivity.Companion {
+  }
+
   public final class CatalogNavigationKt {
-    method @androidx.compose.runtime.Composable public static void CatalogNavigation(java.util.Set<com.google.android.catalog.framework.base.CatalogSample> samples, androidx.fragment.app.FragmentManager fragmentManager);
+    method @androidx.compose.runtime.Composable public static void CatalogNavigation(String startDestination, java.util.Set<com.google.android.catalog.framework.base.CatalogSample> samples, androidx.fragment.app.FragmentManager fragmentManager);
   }
 
   public final class CatalogScreenKt {
