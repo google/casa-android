@@ -37,18 +37,20 @@ import com.google.android.catalog.framework.base.CatalogTarget
 import com.google.android.catalog.framework.ui.components.CatalogTopAppBar
 import com.google.android.catalog.framework.ui.components.FragmentContainer
 
-private const val HOME_DESTINATION = "home"
-
 @Composable
-fun CatalogNavigation(samples: Set<CatalogSample>, fragmentManager: FragmentManager) {
+fun CatalogNavigation(
+    startDestination: String,
+    samples: Set<CatalogSample>,
+    fragmentManager: FragmentManager
+) {
     val navController = rememberNavController()
     NavHost(
         modifier = Modifier.background(MaterialTheme.colorScheme.background),
         navController = navController,
-        startDestination = HOME_DESTINATION
+        startDestination = startDestination
     ) {
         // Add the home destination
-        composable(HOME_DESTINATION) {
+        composable(CATALOG_DESTINATION) {
             CatalogScreen(samples.toList()) {
                 navController.navigate(it.name)
             }
@@ -63,7 +65,6 @@ fun CatalogNavigation(samples: Set<CatalogSample>, fragmentManager: FragmentMana
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 private fun NavGraphBuilder.addTargets(
     sample: CatalogSample,
     fragmentManager: FragmentManager,

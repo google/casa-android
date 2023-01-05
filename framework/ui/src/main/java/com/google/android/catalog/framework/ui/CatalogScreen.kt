@@ -39,6 +39,8 @@ import com.google.android.catalog.framework.ui.components.CatalogTopAppBar
 import com.google.android.catalog.framework.ui.components.FilterTabRow
 import com.google.android.catalog.framework.ui.components.SearchTopAppBar
 
+internal const val CATALOG_DESTINATION = "catalog"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun CatalogScreen(

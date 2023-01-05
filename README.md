@@ -12,7 +12,7 @@ dynamically including all available samples into a single activity.
 
 <img
 alt="Shows the sample app of the framework in action"
-src="casa-showcase.gif"
+src="media/casa-showcase.gif"
 title="Framework showcase"
 width="300"
 />
@@ -185,6 +185,20 @@ fun ComposeSample() {
 ```
 
 Each entry point will be automatically included in the main app and displayed for you.
+
+### Launch a specific sample
+
+To launch a specific sample from Android Studio you can pass the sample name via the `am start`
+command using the [-e](https://developer.android.com/studio/command-line/adb#IntentSpec)
+parameter using the
+[CatalogActivity.KEY_START](framework/ui/src/main/java/com/google/android/catalog/framework/ui/CatalogActivity.kt)
+key value.
+
+```shell
+-e start "Name of the sample as defined in the @Sample annotation
+```
+
+![](media/studio-launch-opt.png)
 
 ## Contributions
 

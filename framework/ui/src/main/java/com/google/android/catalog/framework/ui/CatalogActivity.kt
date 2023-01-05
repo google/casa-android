@@ -48,6 +48,16 @@ import javax.inject.Inject
  */
 open class CatalogActivity : FragmentActivity() {
 
+    companion object {
+        /**
+         * Key to retrieve the start destination from the launching intent.
+         *
+         * For example, you can start a sample by passing `-estart "Compose Sample"` to the am start
+         * command
+         */
+        const val KEY_START = "start"
+    }
+
     @Inject
     lateinit var catalogSamples: Set<CatalogSample>
 
@@ -61,6 +71,11 @@ open class CatalogActivity : FragmentActivity() {
         window.statusBarColor = Color.TRANSPARENT
         window.navigationBarColor = Color.TRANSPARENT
 
+        // Get the starting destination from the launching intent
+        val startDestination = intent.getStringExtra(KEY_START).orEmpty().ifBlank {
+            CATALOG_DESTINATION
+        }
+
         setContent {
             CatalogTheme {
                 Surface(
@@ -71,6 +86,7 @@ open class CatalogActivity : FragmentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     CatalogNavigation(
+                        startDestination = startDestination,
                         samples = catalogSamples,
                         fragmentManager = supportFragmentManager
                     )
