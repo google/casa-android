@@ -109,11 +109,13 @@ private fun SampleScaffold(
     onBackClick: () -> Unit,
     content: @Composable BoxScope.() -> Unit
 ) {
-    Scaffold(topBar = {
-        CatalogTopAppBar(
-            selectedSample = sample, onBackClick = onBackClick
-        )
-    }) {
-        Box(modifier = Modifier.padding(it), content = content)
+    Scaffold(
+        topBar = {
+            CatalogTopAppBar(
+                selectedSample = sample, onBackClick = onBackClick
+            )
+        },
+    ) { contentPadding ->
+        Box(modifier = Modifier.padding(contentPadding), content = content)
     }
 }

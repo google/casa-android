@@ -102,10 +102,9 @@ internal fun CatalogScreen(
         }
     ) { paddingValues ->
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = paddingValues
         ) {
             item {
                 FilterTabRow(filters, selectedFilters) {

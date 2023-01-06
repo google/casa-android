@@ -16,18 +16,12 @@
 
 package com.google.android.catalog.framework.ui
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.android.catalog.framework.base.CatalogSample
 import com.google.android.catalog.framework.ui.theme.CatalogTheme
@@ -63,13 +57,6 @@ open class CatalogActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Ensure that the declaring activity theme don't show an actionbar
-        actionBar?.hide()
-
-        // Remove decor
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        window.statusBarColor = Color.TRANSPARENT
-        window.navigationBarColor = Color.TRANSPARENT
 
         // Get the starting destination from the launching intent
         val startDestination = intent.getStringExtra(KEY_START).orEmpty().ifBlank {
@@ -79,10 +66,7 @@ open class CatalogActivity : FragmentActivity() {
         setContent {
             CatalogTheme {
                 Surface(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.primary)
-                        .windowInsetsPadding(WindowInsets.statusBars),
+                    modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     CatalogNavigation(
