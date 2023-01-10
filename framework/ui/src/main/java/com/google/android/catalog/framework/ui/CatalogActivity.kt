@@ -57,6 +57,8 @@ open class CatalogActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Ensure that the declaring activity theme don't show an actionbar
+        actionBar?.hide()
 
         // Get the starting destination from the launching intent
         val startDestination = intent.getStringExtra(KEY_START).orEmpty().ifBlank {
