@@ -16,6 +16,7 @@
 
 package com.google.android.catalog.framework.processor
 
+import androidx.annotation.RequiresApi
 import com.google.android.catalog.framework.annotations.Sample
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAllSuperTypes
@@ -108,9 +109,12 @@ class SampleProcessor(
     @OptIn(KspExperimental::class)
     private fun createModule(functionSample: KSDeclaration, target: String) {
         val filePath = getRelativeFilePath(functionSample)
-        val sample = functionSample.getAnnotationsByType(Sample::class).first()
         val packageName = functionSample.packageName.asString()
         val sampleFile = functionSample.simpleName.asString()
+        val sample = functionSample.getAnnotationsByType(Sample::class).first()
+        val minSDK = functionSample.getAnnotationsByType(RequiresApi::class).minOfOrNull {
+            it.value
+        } ?: 0
 
         val file = codeGenerator.createNewFile(
             dependencies = Dependencies(
@@ -132,7 +136,8 @@ class SampleProcessor(
                     sampleSource = sample.sourcePath.ifBlank { filePath },
                     samplePath = filePath.substringBefore("/src"),
                     sampleOwners = sample.owners,
-                    sampleTarget = target
+                    sampleTarget = target,
+                    sampleMinSdk = minSDK,
                 ).toByteArray()
             )
         }
@@ -157,7 +162,8 @@ private fun sampleTemplate(
     sampleSource: String,
     samplePath: String,
     sampleOwners: Array<String>,
-    sampleTarget: String
+    sampleTarget: String,
+    sampleMinSdk: Int,
 ) = """
 package $samplePackage
 
@@ -184,7 +190,8 @@ class ${sampleFile}Module {
             "$sampleSource",
             "$samplePath",
             listOf(${sampleOwners.joinToString(",") { "\"$it\"" }}),
-            $sampleTarget
+            $sampleTarget,
+            $sampleMinSdk,
         )
     }
 }

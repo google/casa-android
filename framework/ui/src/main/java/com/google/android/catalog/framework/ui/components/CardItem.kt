@@ -16,6 +16,7 @@
 
 package com.google.android.catalog.framework.ui.components
 
+import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -43,13 +44,16 @@ internal fun CardItem(
     label: String,
     description: String = "",
     tags: List<String> = emptyList(),
+    minSDK: Int = 0,
     onItemClick: () -> Unit
 ) {
+    val enabled = Build.VERSION.SDK_INT >= minSDK
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
-        onClick = onItemClick
+        enabled = enabled,
+        onClick = onItemClick,
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
@@ -72,6 +76,19 @@ internal fun CardItem(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                if (!enabled) {
+                    item {
+                        Text(
+                            modifier = Modifier
+                                .clip(MaterialTheme.shapes.medium)
+                                .background(MaterialTheme.colorScheme.error.copy(alpha = 0.5f))
+                                .padding(6.dp),
+                            color = MaterialTheme.colorScheme.onError,
+                            style = MaterialTheme.typography.labelSmall,
+                            text = "minSDK=$minSDK",
+                        )
+                    }
+                }
                 items(tags) { tag ->
                     Text(
                         modifier = Modifier
