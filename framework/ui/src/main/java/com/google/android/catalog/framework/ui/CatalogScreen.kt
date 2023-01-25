@@ -117,7 +117,12 @@ internal fun CatalogScreen(
                 }
             }
             items(displayedSamples) {
-                CardItem(it.name, it.description, it.tags) {
+                CardItem(
+                    label = it.name,
+                    description = it.description,
+                    tags = it.tags,
+                    minSDK = it.minSDK,
+                ) {
                     launchSample(it)
                     searchState = false
                 }
