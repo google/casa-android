@@ -26,4 +26,5 @@ data class CatalogSample(
     val owners: List<String>,
     val target: CatalogTarget,
     val minSDK: Int = 0,
+    val route: String,
 )
