@@ -16,7 +16,6 @@
 
 package com.google.android.catalog.framework.processor
 
-import androidx.annotation.RequiresApi
 import com.google.android.catalog.framework.annotations.Sample
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAllSuperTypes
@@ -109,12 +108,10 @@ class SampleProcessor(
     @OptIn(KspExperimental::class)
     private fun createModule(functionSample: KSDeclaration, target: String) {
         val filePath = getRelativeFilePath(functionSample)
+        val sample = functionSample.getAnnotationsByType(Sample::class).first()
         val packageName = functionSample.packageName.asString()
         val sampleFile = functionSample.simpleName.asString()
-        val sample = functionSample.getAnnotationsByType(Sample::class).first()
-        val minSDK = functionSample.getAnnotationsByType(RequiresApi::class).minOfOrNull {
-            it.value
-        } ?: 0
+        val sampleSource = sample.sourcePath.ifBlank { filePath }
 
         val file = codeGenerator.createNewFile(
             dependencies = Dependencies(
@@ -133,11 +130,11 @@ class SampleProcessor(
                     sampleDescription = sample.description,
                     sampleTags = sample.tags,
                     sampleDocs = sample.documentation,
-                    sampleSource = sample.sourcePath.ifBlank { filePath },
+                    sampleSource = sampleSource,
                     samplePath = filePath.substringBefore("/src"),
                     sampleOwners = sample.owners,
                     sampleTarget = target,
-                    sampleMinSdk = minSDK,
+                    sampleRoute = "$sampleSource#$sampleFile"
                 ).toByteArray()
             )
         }
@@ -163,7 +160,7 @@ private fun sampleTemplate(
     samplePath: String,
     sampleOwners: Array<String>,
     sampleTarget: String,
-    sampleMinSdk: Int,
+    sampleRoute: String,
 ) = """
 package $samplePackage
 
@@ -191,7 +188,7 @@ class ${sampleFile}Module {
             "$samplePath",
             listOf(${sampleOwners.joinToString(",") { "\"$it\"" }}),
             $sampleTarget,
-            $sampleMinSdk,
+            "$sampleRoute",
         )
     }
 }
