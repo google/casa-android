@@ -16,6 +16,8 @@
 
 package com.google.android.catalog.app.multiple
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
@@ -29,9 +31,10 @@ import com.google.android.catalog.framework.annotations.Sample
     tags = ["tag1"],
     owners = ["owner1"]
 )
+@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun SecondSample() {
     Box(Modifier.fillMaxSize()) {
-        Text(text = "Hi, I am the Second sample!")
+        Text(text = "Hi, I am the Second sample only available in Android 12!")
     }
 }
