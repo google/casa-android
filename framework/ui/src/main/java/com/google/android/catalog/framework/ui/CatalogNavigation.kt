@@ -52,7 +52,7 @@ fun CatalogNavigation(
         // Add the home destination
         composable(CATALOG_DESTINATION) {
             CatalogScreen(samples.toList()) {
-                navController.navigate(it.name)
+                navController.navigate(it.route)
             }
         }
 
@@ -72,7 +72,7 @@ private fun NavGraphBuilder.addTargets(
 ) {
     when (val target = sample.target) {
         is CatalogTarget.TargetComposable -> {
-            composable(sample.name) {
+            composable(sample.route) {
                 SampleScaffold(sample = sample, onBackClick = onBackClick) {
                     target.composable()
                 }
@@ -80,7 +80,7 @@ private fun NavGraphBuilder.addTargets(
         }
 
         is CatalogTarget.TargetFragment -> {
-            composable(sample.name) {
+            composable(sample.route) {
                 SampleScaffold(sample = sample, onBackClick = onBackClick) {
                     FragmentContainer(
                         modifier = Modifier.fillMaxSize(),
@@ -94,7 +94,7 @@ private fun NavGraphBuilder.addTargets(
         }
 
         is CatalogTarget.TargetActivity -> {
-            activity(sample.name) {
+            activity(sample.route) {
                 label = sample.name
                 activityClass = target.targetClass
             }

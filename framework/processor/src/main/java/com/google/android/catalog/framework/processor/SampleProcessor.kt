@@ -111,6 +111,7 @@ class SampleProcessor(
         val sample = functionSample.getAnnotationsByType(Sample::class).first()
         val packageName = functionSample.packageName.asString()
         val sampleFile = functionSample.simpleName.asString()
+        val sampleSource = sample.sourcePath.ifBlank { filePath }
 
         val file = codeGenerator.createNewFile(
             dependencies = Dependencies(
@@ -129,10 +130,11 @@ class SampleProcessor(
                     sampleDescription = sample.description,
                     sampleTags = sample.tags,
                     sampleDocs = sample.documentation,
-                    sampleSource = sample.sourcePath.ifBlank { filePath },
+                    sampleSource = sampleSource,
                     samplePath = filePath.substringBefore("/src"),
                     sampleOwners = sample.owners,
-                    sampleTarget = target
+                    sampleTarget = target,
+                    sampleRoute = "$sampleSource#$sampleFile"
                 ).toByteArray()
             )
         }
@@ -157,7 +159,8 @@ private fun sampleTemplate(
     sampleSource: String,
     samplePath: String,
     sampleOwners: Array<String>,
-    sampleTarget: String
+    sampleTarget: String,
+    sampleRoute: String,
 ) = """
 package $samplePackage
 
@@ -184,7 +187,8 @@ class ${sampleFile}Module {
             "$sampleSource",
             "$samplePath",
             listOf(${sampleOwners.joinToString(",") { "\"$it\"" }}),
-            $sampleTarget
+            $sampleTarget,
+            "$sampleRoute",
         )
     }
 }

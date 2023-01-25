@@ -24,5 +24,6 @@ data class CatalogSample(
     val sourcePath: String,
     val path: String,
     val owners: List<String>,
-    val target: CatalogTarget
+    val target: CatalogTarget,
+    val route: String,
 )
