@@ -2,7 +2,7 @@
 package com.google.android.catalog.framework.base {
 
   public final class CatalogSample {
-    ctor public CatalogSample(String name, String description, java.util.List<java.lang.String> tags, String documentation, String sourcePath, String path, java.util.List<java.lang.String> owners, com.google.android.catalog.framework.base.CatalogTarget target);
+    ctor public CatalogSample(String name, String description, java.util.List<java.lang.String> tags, String documentation, String sourcePath, String path, java.util.List<java.lang.String> owners, com.google.android.catalog.framework.base.CatalogTarget target, String route);
     method public String component1();
     method public String component2();
     method public java.util.List<java.lang.String> component3();
@@ -11,12 +11,14 @@ package com.google.android.catalog.framework.base {
     method public String component6();
     method public java.util.List<java.lang.String> component7();
     method public com.google.android.catalog.framework.base.CatalogTarget component8();
-    method public com.google.android.catalog.framework.base.CatalogSample copy(String name, String description, java.util.List<java.lang.String> tags, String documentation, String sourcePath, String path, java.util.List<java.lang.String> owners, com.google.android.catalog.framework.base.CatalogTarget target);
+    method public String component9();
+    method public com.google.android.catalog.framework.base.CatalogSample copy(String name, String description, java.util.List<java.lang.String> tags, String documentation, String sourcePath, String path, java.util.List<java.lang.String> owners, com.google.android.catalog.framework.base.CatalogTarget target, String route);
     method public String getDescription();
     method public String getDocumentation();
     method public String getName();
     method public java.util.List<java.lang.String> getOwners();
     method public String getPath();
+    method public String getRoute();
     method public String getSourcePath();
     method public java.util.List<java.lang.String> getTags();
     method public com.google.android.catalog.framework.base.CatalogTarget getTarget();
@@ -25,6 +27,7 @@ package com.google.android.catalog.framework.base {
     property public final String name;
     property public final java.util.List<java.lang.String> owners;
     property public final String path;
+    property public final String route;
     property public final String sourcePath;
     property public final java.util.List<java.lang.String> tags;
     property public final com.google.android.catalog.framework.base.CatalogTarget target;
