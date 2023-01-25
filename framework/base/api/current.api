@@ -2,7 +2,7 @@
 package com.google.android.catalog.framework.base {
 
   public final class CatalogSample {
-    ctor public CatalogSample(String name, String description, java.util.List<java.lang.String> tags, String documentation, String sourcePath, String path, java.util.List<java.lang.String> owners, com.google.android.catalog.framework.base.CatalogTarget target, optional int minSDK);
+    ctor public CatalogSample(String name, String description, java.util.List<java.lang.String> tags, String documentation, String sourcePath, String path, java.util.List<java.lang.String> owners, com.google.android.catalog.framework.base.CatalogTarget target);
     method public String component1();
     method public String component2();
     method public java.util.List<java.lang.String> component3();
@@ -11,11 +11,9 @@ package com.google.android.catalog.framework.base {
     method public String component6();
     method public java.util.List<java.lang.String> component7();
     method public com.google.android.catalog.framework.base.CatalogTarget component8();
-    method public int component9();
-    method public com.google.android.catalog.framework.base.CatalogSample copy(String name, String description, java.util.List<java.lang.String> tags, String documentation, String sourcePath, String path, java.util.List<java.lang.String> owners, com.google.android.catalog.framework.base.CatalogTarget target, int minSDK);
+    method public com.google.android.catalog.framework.base.CatalogSample copy(String name, String description, java.util.List<java.lang.String> tags, String documentation, String sourcePath, String path, java.util.List<java.lang.String> owners, com.google.android.catalog.framework.base.CatalogTarget target);
     method public String getDescription();
     method public String getDocumentation();
-    method public int getMinSDK();
     method public String getName();
     method public java.util.List<java.lang.String> getOwners();
     method public String getPath();
@@ -24,7 +22,6 @@ package com.google.android.catalog.framework.base {
     method public com.google.android.catalog.framework.base.CatalogTarget getTarget();
     property public final String description;
     property public final String documentation;
-    property public final int minSDK;
     property public final String name;
     property public final java.util.List<java.lang.String> owners;
     property public final String path;
