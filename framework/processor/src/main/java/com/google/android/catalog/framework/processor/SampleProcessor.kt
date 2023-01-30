@@ -112,6 +112,7 @@ class SampleProcessor(
         val packageName = functionSample.packageName.asString()
         val sampleFile = functionSample.simpleName.asString()
         val sample = functionSample.getAnnotationsByType(Sample::class).first()
+        val sampleSource = sample.sourcePath.ifBlank { filePath }
         val minSDK = functionSample.getAnnotationsByType(RequiresApi::class).minOfOrNull {
             it.value
         } ?: 0
@@ -133,11 +134,12 @@ class SampleProcessor(
                     sampleDescription = sample.description,
                     sampleTags = sample.tags,
                     sampleDocs = sample.documentation,
-                    sampleSource = sample.sourcePath.ifBlank { filePath },
+                    sampleSource = sampleSource,
                     samplePath = filePath.substringBefore("/src"),
                     sampleOwners = sample.owners,
                     sampleTarget = target,
                     sampleMinSdk = minSDK,
+                    sampleRoute = "$sampleSource#$sampleFile",
                 ).toByteArray()
             )
         }
@@ -164,6 +166,7 @@ private fun sampleTemplate(
     sampleOwners: Array<String>,
     sampleTarget: String,
     sampleMinSdk: Int,
+    sampleRoute: String,
 ) = """
 package $samplePackage
 
@@ -192,6 +195,7 @@ class ${sampleFile}Module {
             listOf(${sampleOwners.joinToString(",") { "\"$it\"" }}),
             $sampleTarget,
             $sampleMinSdk,
+            "$sampleRoute",
         )
     }
 }
