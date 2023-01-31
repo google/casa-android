@@ -188,9 +188,9 @@ Each entry point will be automatically included in the main app and displayed fo
 
 ### Launch a specific sample
 
-To launch a specific sample from Android Studio you can pass the sample name via the `am start`
-command using the [-e](https://developer.android.com/studio/command-line/adb#IntentSpec)
-parameter using the
+To launch a specific sample from Android Studio you can pass the sample name or the sample path via
+the `am start` command using the [-e](https://developer.android.com/studio/command-line/adb#IntentSpec)
+parameter and the
 [CatalogActivity.KEY_START](framework/ui/src/main/java/com/google/android/catalog/framework/ui/CatalogActivity.kt)
 key value.
 

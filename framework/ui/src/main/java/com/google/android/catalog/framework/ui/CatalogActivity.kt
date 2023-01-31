@@ -60,10 +60,7 @@ open class CatalogActivity : FragmentActivity() {
         // Ensure that the declaring activity theme don't show an actionbar
         actionBar?.hide()
 
-        // Get the starting destination from the launching intent
-        val startDestination = intent.getStringExtra(KEY_START).orEmpty().ifBlank {
-            CATALOG_DESTINATION
-        }
+        val startDestination = getStartDestination()
 
         setContent {
             CatalogTheme {
@@ -79,5 +76,19 @@ open class CatalogActivity : FragmentActivity() {
                 }
             }
         }
+    }
+
+    /**
+     * Get the starting destination from the launching intent or the home screen if not found.
+     */
+    private fun getStartDestination(): String {
+        val value = intent.getStringExtra(KEY_START).orEmpty()
+        if (value.isEmpty()) {
+            return CATALOG_DESTINATION
+        }
+
+        return catalogSamples.find {
+            it.route == value || it.name.equals(value, ignoreCase = true)
+        }?.route ?: CATALOG_DESTINATION
     }
 }
