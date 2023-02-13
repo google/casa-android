@@ -62,7 +62,6 @@ android {
         textOutput file('stdout')
         textReport true
     }
-
 }
 
 dependencies {
