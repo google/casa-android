@@ -17,6 +17,7 @@
 package com.google.android.catalog.framework.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,7 +29,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.unit.dp
@@ -47,10 +52,10 @@ internal fun CatalogScreen(
     launchSample: (CatalogSample) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
-    var searchState by remember {
+    var searchState by rememberSaveable {
         mutableStateOf(false)
     }
-    var searchTerm by remember(searchState) {
+    var searchTerm by rememberSaveable(searchState) {
         mutableStateOf("")
     }
     val categories = remember(catalogSamples) {
@@ -64,19 +69,34 @@ internal fun CatalogScreen(
             (categories.keys + tags).sorted()
         }
     }
-    val selectedFilters = remember { mutableStateListOf<String>() }
-    val displayedSamples = catalogSamples.filter { sample ->
-        if (searchTerm.isBlank()) {
-            selectedFilters.isEmpty() ||
-                selectedFilters.contains(sample.path) ||
-                sample.tags.any { selectedFilters.contains(it) }
-        } else {
-            sample.name.contains(searchTerm, ignoreCase = true) ||
-                sample.description.contains(searchTerm, ignoreCase = true) ||
-                sample.tags.any { it.equals(searchTerm, ignoreCase = true) }
+    val selectedFilters = rememberSaveable(
+        saver = listSaver(
+            save = {
+                it.toList()
+            },
+            restore = {
+                it.toMutableStateList()
+            }
+        )
+    ) {
+        mutableStateListOf<String>()
+    }
+    val displayedSamples by remember(searchTerm, selectedFilters) {
+        derivedStateOf {
+            catalogSamples.filter { sample ->
+                if (searchTerm.isBlank()) {
+                    selectedFilters.isEmpty() ||
+                        selectedFilters.contains(sample.path) ||
+                        sample.tags.any { selectedFilters.contains(it) }
+                } else {
+                    sample.name.contains(searchTerm, ignoreCase = true) ||
+                        sample.description.contains(searchTerm, ignoreCase = true) ||
+                        sample.tags.any { it.equals(searchTerm, ignoreCase = true) }
+                }
+            }.sortedBy {
+                it.name
+            }
         }
-    }.sortedBy {
-        it.name
     }
 
     Scaffold(
@@ -100,30 +120,48 @@ internal fun CatalogScreen(
             }
         }
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = paddingValues
+        SamplesList(
+            paddingValues,
+            filters,
+            selectedFilters,
+            displayedSamples,
         ) {
-            item {
-                FilterTabRow(filters, selectedFilters) {
-                    if (selectedFilters.contains(it)) {
-                        selectedFilters.remove(it)
-                    } else {
-                        selectedFilters.add(it)
-                    }
+            launchSample(it)
+            searchState = false
+        }
+    }
+}
+
+@Composable
+private fun SamplesList(
+    paddingValues: PaddingValues,
+    filters: List<String>,
+    selectedFilters: SnapshotStateList<String>,
+    displayedSamples: List<CatalogSample>,
+    launchSample: (CatalogSample) -> Unit,
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = paddingValues
+    ) {
+        item {
+            FilterTabRow(filters, selectedFilters) {
+                if (selectedFilters.contains(it)) {
+                    selectedFilters.remove(it)
+                } else {
+                    selectedFilters.add(it)
                 }
             }
-            items(displayedSamples) {
-                CardItem(
-                    label = it.name,
-                    description = it.description,
-                    tags = it.tags,
-                    minSDK = it.minSDK,
-                ) {
-                    launchSample(it)
-                    searchState = false
-                }
+        }
+        items(displayedSamples) {
+            CardItem(
+                label = it.name,
+                description = it.description,
+                tags = it.tags,
+                minSDK = it.minSDK,
+            ) {
+                launchSample(it)
             }
         }
     }
