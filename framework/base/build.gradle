@@ -27,8 +27,6 @@ android {
     defaultConfig {
         minSdk 26
         targetSdk 33
-
-        /* Define the supported configurations to avoid extra resources added by 3rd parties */
         resConfigs 'en'
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -54,12 +52,6 @@ android {
         kotlinCompilerExtensionVersion libs.versions.composeCompiler.get()
     }
 
-    lintOptions {
-        textReport true
-        textOutput 'stdout'
-        // We run a full lint analysis as build part in CI, so skip vital checks for assemble tasks
-        checkReleaseBuilds false
-    }
 
     testOptions {
         unitTests {
@@ -68,21 +60,30 @@ android {
         animationsDisabled true
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
-
     packagingOptions {
-        // Exclude license files to enable our test APK to build (has no effect on our AARs)
-        excludes += "/META-INF/AL2.0"
-        excludes += "/META-INF/LGPL2.1"
+        resources {
+            excludes += ['/META-INF/AL2.0', '/META-INF/LGPL2.1']
+        }
     }
+
 
     publishing {
         multipleVariants {
             allVariants()
         }
     }
+    lint {
+        checkReleaseBuilds false
+        textOutput file('stdout')
+        textReport true
+    }
 }
 
 dependencies {
+    def composeBom = platform(libs.compose.bom)
+    implementation composeBom
+    androidTestImplementation composeBom
+
     api(project(":framework:annotations"))
 
     compileOnly libs.androidx.fragment
