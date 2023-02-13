@@ -28,6 +28,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -46,42 +47,46 @@ internal fun SearchTopAppBar(
     onClear: () -> Unit,
     onSearch: (String) -> Unit,
 ) {
-    TextField(
-        value = searchTerm,
-        onValueChange = onValueChange,
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Rounded.Search,
-                contentDescription = "Search button"
-            )
-        },
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Search
-        ),
-        keyboardActions = KeyboardActions(
-            onSearch = {
-                onSearch(searchTerm)
-            }
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(64.dp)
-            .focusRequester(focusRequester)
-            .onGloballyPositioned {
-                focusRequester.requestFocus()
-            },
-        trailingIcon = {
-            IconButton(onClick = onClear) {
-                Icon(
-                    imageVector = Icons.Rounded.Clear,
-                    contentDescription = "Search button"
+    TopAppBar(
+        title = {
+            TextField(
+                value = searchTerm,
+                onValueChange = onValueChange,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Rounded.Search,
+                        contentDescription = "Search button"
+                    )
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Search
+                ),
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        onSearch(searchTerm)
+                    }
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp)
+                    .focusRequester(focusRequester)
+                    .onGloballyPositioned {
+                        focusRequester.requestFocus()
+                    },
+                trailingIcon = {
+                    IconButton(onClick = onClear) {
+                        Icon(
+                            imageVector = Icons.Rounded.Clear,
+                            contentDescription = "Search button"
+                        )
+                    }
+                },
+                singleLine = true,
+                colors = TextFieldDefaults.textFieldColors(
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
                 )
-            }
-        },
-        singleLine = true,
-        colors = TextFieldDefaults.textFieldColors(
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
-        )
+            )
+        }
     )
 }
