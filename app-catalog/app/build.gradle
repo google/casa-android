@@ -17,8 +17,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -57,16 +57,19 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion libs.versions.composeCompiler.get()
     }
-
-    lintOptions {
-        textReport true
-        textOutput 'stdout'
-        // We run a full lint analysis as build part in CI, so skip vital checks for assemble tasks
+    lint {
         checkReleaseBuilds false
+        textOutput file('stdout')
+        textReport true
     }
+
 }
 
 dependencies {
+    def composeBom = platform(libs.compose.bom)
+    implementation composeBom
+    androidTestImplementation composeBom
+
     // CASA UI dependency for the app-module
     implementation(project(":framework:ui"))
 

@@ -16,6 +16,12 @@
 
 apply plugin: 'kotlin'
 
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+}
+
 affectedTestConfiguration {
     jvmTestTask = "test"
 }
