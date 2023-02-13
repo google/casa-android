@@ -18,6 +18,7 @@ package com.google.android.catalog.framework.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -65,6 +66,7 @@ internal fun SearchTopAppBar(
         ),
         modifier = Modifier
             .fillMaxWidth()
+            .statusBarsPadding()
             .height(64.dp)
             .focusRequester(focusRequester)
             .onGloballyPositioned {
