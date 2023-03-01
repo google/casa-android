@@ -30,7 +30,7 @@ package com.google.android.catalog.framework.annotations
  * @param owners an optional owners information, it can be used to show who proposed the sample
  */
 @MustBeDocumented
-@Retention(AnnotationRetention.SOURCE)
+@Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 annotation class Sample(
     val name: String,
