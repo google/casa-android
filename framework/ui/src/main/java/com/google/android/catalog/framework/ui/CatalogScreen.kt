@@ -17,6 +17,7 @@
 package com.google.android.catalog.framework.ui
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -166,6 +167,7 @@ private fun SamplesList(
             CardItem(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .animateItemPlacement(spring())
                     .padding(horizontal = 16.dp),
                 label = it.name,
                 appearance = appearance,
