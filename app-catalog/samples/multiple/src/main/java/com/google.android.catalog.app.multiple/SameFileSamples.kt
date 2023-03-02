@@ -20,13 +20,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.google.android.catalog.framework.annotations.Sample
 
 @Sample(name = "Same file sample 1", "Show how a file can contain multiple samples")
 @Composable
 fun SameFileSample1() {
-    Box(Modifier.fillMaxSize()) {
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(text = "Hi, I am same file sample 1")
     }
 }
@@ -34,7 +35,7 @@ fun SameFileSample1() {
 @Sample(name = "Same file sample 2", "Show how a file can contain multiple samples")
 @Composable
 fun SameFileSample2() {
-    Box(Modifier.fillMaxSize()) {
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(text = "Hi, I am same file sample 2")
     }
 }
