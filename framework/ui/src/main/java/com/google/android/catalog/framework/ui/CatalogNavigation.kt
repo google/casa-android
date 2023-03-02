@@ -41,6 +41,7 @@ import com.google.android.catalog.framework.ui.components.FragmentContainer
 fun CatalogNavigation(
     startDestination: String,
     samples: Set<CatalogSample>,
+    settings: CatalogSettings,
     fragmentManager: FragmentManager
 ) {
     val navController = rememberNavController()
@@ -51,14 +52,14 @@ fun CatalogNavigation(
     ) {
         // Add the home destination
         composable(CATALOG_DESTINATION) {
-            CatalogScreen(samples.toList()) {
+            CatalogScreen(samples.toList(), settings) {
                 navController.navigate(it.route)
             }
         }
 
         // Add all the samples
         samples.forEach { sample ->
-            addTargets(sample, fragmentManager) {
+            addTargets(sample, fragmentManager, settings) {
                 navController.popBackStack()
             }
         }
@@ -68,12 +69,13 @@ fun CatalogNavigation(
 private fun NavGraphBuilder.addTargets(
     sample: CatalogSample,
     fragmentManager: FragmentManager,
+    settings: CatalogSettings,
     onBackClick: () -> Unit
 ) {
     when (val target = sample.target) {
         is CatalogTarget.TargetComposable -> {
             composable(sample.route) {
-                SampleScaffold(sample = sample, onBackClick = onBackClick) {
+                SampleScaffold(sample = sample, settings = settings, onBackClick = onBackClick) {
                     target.composable()
                 }
             }
@@ -81,7 +83,7 @@ private fun NavGraphBuilder.addTargets(
 
         is CatalogTarget.TargetFragment -> {
             composable(sample.route) {
-                SampleScaffold(sample = sample, onBackClick = onBackClick) {
+                SampleScaffold(sample = sample, settings = settings, onBackClick = onBackClick) {
                     FragmentContainer(
                         modifier = Modifier.fillMaxSize(),
                         fragmentManager = fragmentManager,
@@ -106,14 +108,17 @@ private fun NavGraphBuilder.addTargets(
 @OptIn(ExperimentalMaterial3Api::class)
 private fun SampleScaffold(
     sample: CatalogSample,
+    settings: CatalogSettings,
     onBackClick: () -> Unit,
     content: @Composable BoxScope.() -> Unit
 ) {
     Scaffold(
         topBar = {
-            CatalogTopAppBar(
-                selectedSample = sample, onBackClick = onBackClick
-            )
+            if (settings.alwaysShowToolbar) {
+                CatalogTopAppBar(
+                    selectedSample = sample, onBackClick = onBackClick
+                )
+            }
         },
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding), content = content)

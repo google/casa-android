@@ -18,6 +18,10 @@ package com.google.android.catalog.app
 
 import android.app.Application
 import com.google.android.catalog.framework.ui.CatalogActivity
+import com.google.android.catalog.framework.ui.CatalogCardAppearance
+import com.google.android.catalog.framework.ui.CatalogFilter
+import com.google.android.catalog.framework.ui.CatalogOrder
+import com.google.android.catalog.framework.ui.CatalogSettings
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 
@@ -25,4 +29,19 @@ import dagger.hilt.android.HiltAndroidApp
 class MainApp : Application()
 
 @AndroidEntryPoint
-class MainActivity : CatalogActivity()
+class MainActivity : CatalogActivity() {
+
+    /**
+     * You can optionally modify certain aspects of the catalog
+     */
+    override val settings = CatalogSettings(
+        filters = listOf(CatalogFilter.Path(), CatalogFilter.Tag),
+        order = CatalogOrder.Name(),
+        alwaysShowToolbar = true,
+        cardAppearance = CatalogCardAppearance(
+            description = 1,
+            tags = true,
+            owners = false
+        )
+    )
+}

@@ -36,22 +36,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.google.android.catalog.framework.ui.CatalogCardAppearance
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun CardItem(
+    modifier: Modifier = Modifier,
     label: String,
+    appearance: CatalogCardAppearance,
     description: String = "",
     tags: List<String> = emptyList(),
+    owners: List<String> = emptyList(),
     minSDK: Int = 0,
     onItemClick: () -> Unit
 ) {
     val enabled = Build.VERSION.SDK_INT >= minSDK
     ElevatedCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+        modifier = modifier,
         enabled = enabled,
         onClick = onItemClick,
     ) {
@@ -66,12 +69,16 @@ internal fun CardItem(
                 Text(text = label, style = MaterialTheme.typography.labelLarge)
                 Icon(Icons.Rounded.KeyboardArrowRight, "Forward")
             }
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp),
-                text = description
-            )
+            if (appearance.description > 0) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp),
+                    text = description,
+                    maxLines = appearance.description,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -89,16 +96,31 @@ internal fun CardItem(
                         )
                     }
                 }
-                items(tags) { tag ->
-                    Text(
-                        modifier = Modifier
-                            .clip(MaterialTheme.shapes.medium)
-                            .background(MaterialTheme.colorScheme.primary)
-                            .padding(6.dp),
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        style = MaterialTheme.typography.labelSmall,
-                        text = tag
-                    )
+                if (appearance.tags) {
+                    items(tags) { tag ->
+                        Text(
+                            modifier = Modifier
+                                .clip(MaterialTheme.shapes.medium)
+                                .background(MaterialTheme.colorScheme.primary)
+                                .padding(6.dp),
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            style = MaterialTheme.typography.labelSmall,
+                            text = tag
+                        )
+                    }
+                }
+                if (appearance.owners) {
+                    items(owners) { owner ->
+                        Text(
+                            modifier = Modifier
+                                .clip(MaterialTheme.shapes.medium)
+                                .background(MaterialTheme.colorScheme.surfaceVariant)
+                                .padding(6.dp),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.labelSmall,
+                            text = owner
+                        )
+                    }
                 }
             }
         }

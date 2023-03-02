@@ -16,9 +16,13 @@
 
 package com.google.android.catalog.framework.ui
 
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,10 +49,11 @@ import com.google.android.catalog.framework.ui.components.SearchTopAppBar
 
 internal const val CATALOG_DESTINATION = "catalog"
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 internal fun CatalogScreen(
     catalogSamples: List<CatalogSample>,
+    catalogSettings: CatalogSettings,
     launchSample: (CatalogSample) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -58,15 +63,17 @@ internal fun CatalogScreen(
     var searchTerm by rememberSaveable(searchState) {
         mutableStateOf("")
     }
-    val categories = remember(catalogSamples) {
-        catalogSamples.groupBy { it.path }
-    }
-    val tags = remember(catalogSamples) {
-        catalogSamples.flatMap { it.tags }.distinct()
-    }
-    val filters by remember {
+    val filters by remember(catalogSamples, catalogSettings) {
         derivedStateOf {
-            (categories.keys + tags).sorted()
+            catalogSettings.filters.flatMap { filter ->
+                when (filter) {
+                    is CatalogFilter.Path -> catalogSamples.groupBy {
+                        it.path.split("/").take(filter.depth + 1).joinToString("/")
+                    }.keys.distinct()
+
+                    CatalogFilter.Tag -> catalogSamples.flatMap { it.tags }.distinct()
+                }
+            }.sorted()
         }
     }
     val selectedFilters = rememberSaveable(
@@ -93,9 +100,7 @@ internal fun CatalogScreen(
                         sample.description.contains(searchTerm, ignoreCase = true) ||
                         sample.tags.any { it.equals(searchTerm, ignoreCase = true) }
                 }
-            }.sortedBy {
-                it.name
-            }
+            }.sortedWith(catalogSettings.order)
         }
     }
 
@@ -125,6 +130,7 @@ internal fun CatalogScreen(
             filters,
             selectedFilters,
             displayedSamples,
+            catalogSettings.cardAppearance
         ) {
             launchSample(it)
             searchState = false
@@ -132,12 +138,14 @@ internal fun CatalogScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SamplesList(
     paddingValues: PaddingValues,
     filters: List<String>,
     selectedFilters: SnapshotStateList<String>,
     displayedSamples: List<CatalogSample>,
+    appearance: CatalogCardAppearance,
     launchSample: (CatalogSample) -> Unit,
 ) {
     LazyColumn(
@@ -154,11 +162,16 @@ private fun SamplesList(
                 }
             }
         }
-        items(displayedSamples) {
+        items(displayedSamples, key = { it.route }) {
             CardItem(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 label = it.name,
+                appearance = appearance,
                 description = it.description,
                 tags = it.tags,
+                owners = it.owners,
                 minSDK = it.minSDK,
             ) {
                 launchSample(it)
