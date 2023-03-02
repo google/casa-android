@@ -55,6 +55,13 @@ open class CatalogActivity : FragmentActivity() {
     @Inject
     lateinit var catalogSamples: Set<CatalogSample>
 
+    /**
+     * Override this field to customize the certain aspects of the UI.
+     *
+     * @see CatalogSettings
+     */
+    open val settings: CatalogSettings = CatalogSettings()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Ensure that the declaring activity theme don't show an actionbar
@@ -71,7 +78,8 @@ open class CatalogActivity : FragmentActivity() {
                     CatalogNavigation(
                         startDestination = startDestination,
                         samples = catalogSamples,
-                        fragmentManager = supportFragmentManager
+                        settings = settings,
+                        fragmentManager = supportFragmentManager,
                     )
                 }
             }

@@ -4,8 +4,10 @@ package com.google.android.catalog.framework.ui {
   public class CatalogActivity extends androidx.fragment.app.FragmentActivity {
     ctor public CatalogActivity();
     method public final java.util.Set<com.google.android.catalog.framework.base.CatalogSample> getCatalogSamples();
+    method public com.google.android.catalog.framework.ui.CatalogSettings getSettings();
     method public final void setCatalogSamples(java.util.Set<com.google.android.catalog.framework.base.CatalogSample> catalogSamples);
     property public final java.util.Set<com.google.android.catalog.framework.base.CatalogSample> catalogSamples;
+    property public com.google.android.catalog.framework.ui.CatalogSettings settings;
     field public static final com.google.android.catalog.framework.ui.CatalogActivity.Companion Companion;
     field public static final String KEY_START = "start";
     field @javax.inject.Inject public java.util.Set<com.google.android.catalog.framework.base.CatalogSample> catalogSamples;
@@ -14,11 +16,83 @@ package com.google.android.catalog.framework.ui {
   public static final class CatalogActivity.Companion {
   }
 
+  public final class CatalogCardAppearance {
+    ctor public CatalogCardAppearance(optional int description, optional boolean tags, optional boolean owners);
+    method public int component1();
+    method public boolean component2();
+    method public boolean component3();
+    method public com.google.android.catalog.framework.ui.CatalogCardAppearance copy(int description, boolean tags, boolean owners);
+    method public int getDescription();
+    method public boolean getOwners();
+    method public boolean getTags();
+    property public final int description;
+    property public final boolean owners;
+    property public final boolean tags;
+  }
+
+  public sealed interface CatalogFilter {
+  }
+
+  public static final class CatalogFilter.Path implements com.google.android.catalog.framework.ui.CatalogFilter {
+    ctor public CatalogFilter.Path(optional int depth);
+    method public int component1();
+    method public com.google.android.catalog.framework.ui.CatalogFilter.Path copy(int depth);
+    method public int getDepth();
+    property public final int depth;
+  }
+
+  public static final class CatalogFilter.Tag implements com.google.android.catalog.framework.ui.CatalogFilter {
+    field public static final com.google.android.catalog.framework.ui.CatalogFilter.Tag INSTANCE;
+  }
+
   public final class CatalogNavigationKt {
-    method @androidx.compose.runtime.Composable public static void CatalogNavigation(String startDestination, java.util.Set<com.google.android.catalog.framework.base.CatalogSample> samples, androidx.fragment.app.FragmentManager fragmentManager);
+    method @androidx.compose.runtime.Composable public static void CatalogNavigation(String startDestination, java.util.Set<com.google.android.catalog.framework.base.CatalogSample> samples, com.google.android.catalog.framework.ui.CatalogSettings settings, androidx.fragment.app.FragmentManager fragmentManager);
+  }
+
+  public sealed interface CatalogOrder {
+  }
+
+  public static final class CatalogOrder.Custom implements com.google.android.catalog.framework.ui.CatalogOrder {
+    ctor public CatalogOrder.Custom(error.NonExistentClass comparator);
+    method public int compare(com.google.android.catalog.framework.base.CatalogSample sample1, com.google.android.catalog.framework.base.CatalogSample sample2);
+    method public error.NonExistentClass! component1();
+    method public com.google.android.catalog.framework.ui.CatalogOrder.Custom copy(error.NonExistentClass! comparator);
+    method public error.NonExistentClass! getComparator();
+    property public final error.NonExistentClass! comparator;
+  }
+
+  public static final class CatalogOrder.Name implements com.google.android.catalog.framework.ui.CatalogOrder {
+    ctor public CatalogOrder.Name(optional boolean asc);
+    method public int compare(com.google.android.catalog.framework.base.CatalogSample sample1, com.google.android.catalog.framework.base.CatalogSample sample2);
+    method public boolean component1();
+    method public com.google.android.catalog.framework.ui.CatalogOrder.Name copy(boolean asc);
+    method public boolean getAsc();
+    property public final boolean asc;
+  }
+
+  public static final class CatalogOrder.None implements com.google.android.catalog.framework.ui.CatalogOrder {
+    method public int compare(com.google.android.catalog.framework.base.CatalogSample sample1, com.google.android.catalog.framework.base.CatalogSample sample2);
+    field public static final com.google.android.catalog.framework.ui.CatalogOrder.None INSTANCE;
   }
 
   public final class CatalogScreenKt {
+  }
+
+  public final class CatalogSettings {
+    ctor public CatalogSettings(optional java.util.List<? extends com.google.android.catalog.framework.ui.CatalogFilter> filters, optional com.google.android.catalog.framework.ui.CatalogOrder order, optional boolean alwaysShowToolbar, optional com.google.android.catalog.framework.ui.CatalogCardAppearance cardAppearance);
+    method public java.util.List<com.google.android.catalog.framework.ui.CatalogFilter> component1();
+    method public com.google.android.catalog.framework.ui.CatalogOrder component2();
+    method public boolean component3();
+    method public com.google.android.catalog.framework.ui.CatalogCardAppearance component4();
+    method public com.google.android.catalog.framework.ui.CatalogSettings copy(java.util.List<? extends com.google.android.catalog.framework.ui.CatalogFilter> filters, com.google.android.catalog.framework.ui.CatalogOrder order, boolean alwaysShowToolbar, com.google.android.catalog.framework.ui.CatalogCardAppearance cardAppearance);
+    method public boolean getAlwaysShowToolbar();
+    method public com.google.android.catalog.framework.ui.CatalogCardAppearance getCardAppearance();
+    method public java.util.List<com.google.android.catalog.framework.ui.CatalogFilter> getFilters();
+    method public com.google.android.catalog.framework.ui.CatalogOrder getOrder();
+    property public final boolean alwaysShowToolbar;
+    property public final com.google.android.catalog.framework.ui.CatalogCardAppearance cardAppearance;
+    property public final java.util.List<com.google.android.catalog.framework.ui.CatalogFilter> filters;
+    property public final com.google.android.catalog.framework.ui.CatalogOrder order;
   }
 
 }
