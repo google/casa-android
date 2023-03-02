@@ -27,6 +27,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -50,12 +51,20 @@ internal fun CardItem(
     tags: List<String> = emptyList(),
     owners: List<String> = emptyList(),
     minSDK: Int = 0,
+    selected: Boolean,
     onItemClick: () -> Unit
 ) {
     val enabled = Build.VERSION.SDK_INT >= minSDK
     ElevatedCard(
         modifier = modifier,
         enabled = enabled,
+        colors = if (selected) {
+            CardDefaults.elevatedCardColors(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer
+            )
+        } else {
+            CardDefaults.elevatedCardColors()
+        },
         onClick = onItemClick,
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
