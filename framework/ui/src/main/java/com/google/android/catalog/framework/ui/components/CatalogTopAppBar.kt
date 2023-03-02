@@ -18,11 +18,13 @@ package com.google.android.catalog.framework.ui.components
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.rounded.Fullscreen
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -36,6 +38,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -45,20 +48,34 @@ import com.google.android.catalog.framework.ui.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CatalogTopAppBar(
+    isDualPane: Boolean,
     selectedSample: CatalogSample? = null,
     onSearch: () -> Unit = {},
+    onExpand: () -> Unit = {},
     onBackClick: () -> Unit = {},
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
+    val isExpandedScreen = isExpandedScreen()
     fun launchUrl(url: String) {
         check(url.isNotBlank()) {
             "Provided URL is empty. Did you miss adding the base URL?"
         }
+
+        // If we are in dual-pane screen expand the sample before launching multi-window
+        if (isDualPane && selectedSample != null) {
+            onExpand()
+        }
         context.startActivity(
             Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+                // Only launch multi-window if we are in expanded mode
+                if (isExpandedScreen) {
+                    addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT)
+                    addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+                }
             }
         )
         menuExpanded = false
@@ -74,11 +91,20 @@ fun CatalogTopAppBar(
         },
         actions = {
             Box {
-                Row {
-                    if (selectedSample == null) {
+                Row(Modifier.animateContentSize()) {
+                    if (selectedSample == null || isDualPane) {
                         IconButton(onClick = onSearch) {
                             Icon(
                                 imageVector = Icons.Rounded.Search,
+                                contentDescription = "Search button"
+                            )
+                        }
+                    }
+
+                    if (isDualPane && selectedSample != null) {
+                        IconButton(onClick = onExpand) {
+                            Icon(
+                                imageVector = Icons.Rounded.Fullscreen,
                                 contentDescription = "Search button"
                             )
                         }
@@ -99,10 +125,8 @@ fun CatalogTopAppBar(
                             else -> {
                                 stringResource(
                                     id = R.string.source_base_url,
-                                    if (selectedSample.sourcePath.isBlank()) {
+                                    selectedSample.sourcePath.ifBlank {
                                         selectedSample.path
-                                    } else {
-                                        selectedSample.sourcePath
                                     }
                                 )
                             }
@@ -151,7 +175,7 @@ fun CatalogTopAppBar(
             }
         },
         navigationIcon = {
-            if (selectedSample != null) {
+            if (selectedSample != null && !isDualPane) {
                 IconButton(onClick = onBackClick) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack, contentDescription = null

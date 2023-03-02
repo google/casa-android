@@ -16,18 +16,31 @@
 
 package com.google.android.catalog.framework.ui
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -39,14 +52,18 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.unit.dp
 import com.google.android.catalog.framework.base.CatalogSample
+import com.google.android.catalog.framework.base.CatalogTarget
 import com.google.android.catalog.framework.ui.components.CardItem
 import com.google.android.catalog.framework.ui.components.CatalogTopAppBar
 import com.google.android.catalog.framework.ui.components.FilterTabRow
 import com.google.android.catalog.framework.ui.components.SearchTopAppBar
+import com.google.android.catalog.framework.ui.components.isExpandedScreen
 
 internal const val CATALOG_DESTINATION = "catalog"
 
@@ -105,37 +122,123 @@ internal fun CatalogScreen(
         }
     }
 
+    val isExpandedScreen = isExpandedScreen()
+    val saver = listSaver<CatalogSample?, String>(
+        save = { listOf(it?.route.orEmpty()) },
+        restore = { list -> displayedSamples.find { it.route == list.firstOrNull() } }
+    )
+    var selectedSample by rememberSaveable(isExpandedScreen, stateSaver = saver) {
+        mutableStateOf(null)
+    }
+
     Scaffold(
         topBar = {
-            if (searchState) {
-                SearchTopAppBar(
-                    searchTerm = searchTerm,
-                    focusRequester = focusRequester,
-                    onSearch = {
-                        searchState = false
-                    },
-                    onClear = {
-                        searchState = false
-                    },
-                    onValueChange = {
-                        searchTerm = it
+            AnimatedContent(
+                targetState = searchState,
+                transitionSpec = {
+                    if (targetState) {
+                        expandHorizontally { it / 8 } + fadeIn(tween(100)) with fadeOut()
+                    } else {
+                        fadeIn(tween(500, delayMillis = 100)) with
+                            shrinkHorizontally(tween(400)) { it / 8 } + fadeOut(tween(400))
                     }
-                )
-            } else {
-                CatalogTopAppBar(onSearch = { searchState = true })
+                },
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                if (it) {
+                    SearchTopAppBar(
+                        searchTerm = searchTerm,
+                        focusRequester = focusRequester,
+                        onSearch = {
+                            searchState = false
+                        },
+                        onClear = {
+                            searchState = false
+                        },
+                        onValueChange = {
+                            searchTerm = it
+                        }
+                    )
+                } else {
+                    CatalogTopAppBar(
+                        isDualPane = isExpandedScreen,
+                        selectedSample = selectedSample,
+                        onSearch = { searchState = true },
+                        onExpand = { launchSample(selectedSample!!) }
+                    )
+                }
             }
         }
     ) { paddingValues ->
-        SamplesList(
-            paddingValues,
-            filters,
-            selectedFilters,
-            displayedSamples,
-            catalogSettings.cardAppearance
-        ) {
-            launchSample(it)
-            searchState = false
+        AdaptivePane(
+            paddingValues = paddingValues,
+            start = {
+                SamplesList(
+                    paddingValues,
+                    filters,
+                    selectedFilters,
+                    displayedSamples,
+                    selectedSample,
+                    catalogSettings.cardAppearance
+                ) {
+                    if (!isExpandedScreen || it.target !is CatalogTarget.TargetComposable) {
+                        launchSample(it)
+                    }
+                    if (it.target is CatalogTarget.TargetComposable) {
+                        selectedSample = it
+                    }
+                    searchState = false
+                }
+            },
+            end = {
+                val content =
+                    (selectedSample?.target as? CatalogTarget.TargetComposable)?.composable
+                if (content != null) {
+                    content.invoke()
+                } else {
+                    EmptySample()
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun EmptySample() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(text = "Select a sample")
+    }
+}
+
+@Composable
+fun AdaptivePane(
+    paddingValues: PaddingValues,
+    start: @Composable () -> Unit,
+    end: @Composable () -> Unit
+) {
+    if (isExpandedScreen()) {
+        Row(Modifier.fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1.3f)
+            ) {
+                start()
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(top = 4.dp, end = 4.dp, bottom = 4.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .weight(2f)
+            ) {
+                end()
+            }
         }
+    } else {
+        start()
     }
 }
 
@@ -146,6 +249,7 @@ private fun SamplesList(
     filters: List<String>,
     selectedFilters: SnapshotStateList<String>,
     displayedSamples: List<CatalogSample>,
+    selectedSample: CatalogSample?,
     appearance: CatalogCardAppearance,
     launchSample: (CatalogSample) -> Unit,
 ) {
@@ -175,6 +279,7 @@ private fun SamplesList(
                 tags = it.tags,
                 owners = it.owners,
                 minSDK = it.minSDK,
+                selected = it == selectedSample && isExpandedScreen()
             ) {
                 launchSample(it)
             }

@@ -45,6 +45,7 @@ fun CatalogNavigation(
     fragmentManager: FragmentManager
 ) {
     val navController = rememberNavController()
+
     NavHost(
         modifier = Modifier.background(MaterialTheme.colorScheme.background),
         navController = navController,
@@ -59,9 +60,13 @@ fun CatalogNavigation(
 
         // Add all the samples
         samples.forEach { sample ->
-            addTargets(sample, fragmentManager, settings) {
-                navController.popBackStack()
-            }
+            addTargets(
+                sample = sample,
+                fragmentManager = fragmentManager,
+                settings = settings,
+                onExpand = { navController.navigate(it.route) },
+                onBackClick = navController::popBackStack
+            )
         }
     }
 }
@@ -70,12 +75,18 @@ private fun NavGraphBuilder.addTargets(
     sample: CatalogSample,
     fragmentManager: FragmentManager,
     settings: CatalogSettings,
-    onBackClick: () -> Unit
+    onExpand: (CatalogSample) -> Unit,
+    onBackClick: () -> Unit,
 ) {
     when (val target = sample.target) {
         is CatalogTarget.TargetComposable -> {
             composable(sample.route) {
-                SampleScaffold(sample = sample, settings = settings, onBackClick = onBackClick) {
+                SampleScaffold(
+                    sample = sample,
+                    settings = settings,
+                    onExpand = { onExpand(sample) },
+                    onBackClick = onBackClick,
+                ) {
                     target.composable()
                 }
             }
@@ -83,7 +94,12 @@ private fun NavGraphBuilder.addTargets(
 
         is CatalogTarget.TargetFragment -> {
             composable(sample.route) {
-                SampleScaffold(sample = sample, settings = settings, onBackClick = onBackClick) {
+                SampleScaffold(
+                    sample = sample,
+                    settings = settings,
+                    onExpand = { onExpand(sample) },
+                    onBackClick = onBackClick
+                ) {
                     FragmentContainer(
                         modifier = Modifier.fillMaxSize(),
                         fragmentManager = fragmentManager,
@@ -109,14 +125,18 @@ private fun NavGraphBuilder.addTargets(
 private fun SampleScaffold(
     sample: CatalogSample,
     settings: CatalogSettings,
+    onExpand: () -> Unit,
     onBackClick: () -> Unit,
-    content: @Composable BoxScope.() -> Unit
+    content: @Composable() (BoxScope.() -> Unit)
 ) {
     Scaffold(
         topBar = {
             if (settings.alwaysShowToolbar) {
                 CatalogTopAppBar(
-                    selectedSample = sample, onBackClick = onBackClick
+                    isDualPane = false,
+                    selectedSample = sample,
+                    onExpand = onExpand,
+                    onBackClick = onBackClick
                 )
             }
         },

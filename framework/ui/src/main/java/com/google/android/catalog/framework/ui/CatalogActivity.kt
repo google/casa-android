@@ -21,9 +21,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.FragmentActivity
 import com.google.android.catalog.framework.base.CatalogSample
+import com.google.android.catalog.framework.ui.components.LocalWindowSize
 import com.google.android.catalog.framework.ui.theme.CatalogTheme
 import javax.inject.Inject
 
@@ -62,6 +66,7 @@ open class CatalogActivity : FragmentActivity() {
      */
     open val settings: CatalogSettings = CatalogSettings()
 
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Ensure that the declaring activity theme don't show an actionbar
@@ -75,12 +80,15 @@ open class CatalogActivity : FragmentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CatalogNavigation(
-                        startDestination = startDestination,
-                        samples = catalogSamples,
-                        settings = settings,
-                        fragmentManager = supportFragmentManager,
-                    )
+                    val sizeClass = calculateWindowSizeClass(this)
+                    CompositionLocalProvider(LocalWindowSize provides sizeClass) {
+                        CatalogNavigation(
+                            startDestination = startDestination,
+                            samples = catalogSamples,
+                            settings = settings,
+                            fragmentManager = supportFragmentManager
+                        )
+                    }
                 }
             }
         }
