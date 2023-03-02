@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.google.android.catalog.framework.annotations.Sample
 
@@ -30,7 +31,7 @@ import com.google.android.catalog.framework.annotations.Sample
 @Sample(name = "Deprecated sample", "Shows how a sample can be deprecated")
 @Composable
 fun DeprecatedSample() {
-    Box(Modifier.fillMaxSize()) {
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(text = "Hi, you won't see me!")
     }
 }
