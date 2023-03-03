@@ -46,7 +46,6 @@ package com.google.android.catalog.framework.ui {
   }
 
   public final class CatalogNavigationKt {
-    method @androidx.compose.runtime.Composable public static void CatalogNavigation(String startDestination, java.util.Set<com.google.android.catalog.framework.base.CatalogSample> samples, com.google.android.catalog.framework.ui.CatalogSettings settings, androidx.fragment.app.FragmentManager fragmentManager);
   }
 
   public sealed interface CatalogOrder {
@@ -76,8 +75,6 @@ package com.google.android.catalog.framework.ui {
   }
 
   public final class CatalogScreenKt {
-    method @androidx.compose.runtime.Composable public static void AdaptivePane(androidx.compose.foundation.layout.PaddingValues paddingValues, kotlin.jvm.functions.Function0<kotlin.Unit> start, kotlin.jvm.functions.Function0<kotlin.Unit> end);
-    method @androidx.compose.runtime.Composable public static void EmptySample();
   }
 
   public final class CatalogSettings {
@@ -100,6 +97,9 @@ package com.google.android.catalog.framework.ui {
 }
 
 package com.google.android.catalog.framework.ui.components {
+
+  public final class AdaptivePaneKt {
+  }
 
   public final class CardItemKt {
   }
