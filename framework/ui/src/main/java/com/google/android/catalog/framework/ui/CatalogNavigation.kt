@@ -38,7 +38,7 @@ import com.google.android.catalog.framework.ui.components.CatalogTopAppBar
 import com.google.android.catalog.framework.ui.components.FragmentContainer
 
 @Composable
-fun CatalogNavigation(
+internal fun CatalogNavigation(
     startDestination: String,
     samples: Set<CatalogSample>,
     settings: CatalogSettings,

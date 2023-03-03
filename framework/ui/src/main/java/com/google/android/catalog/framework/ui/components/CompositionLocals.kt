@@ -21,7 +21,13 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 
+/**
+ * Retrieves the calculated WindowSizeClass from the CatalogActivity
+ */
 val LocalWindowSize = compositionLocalOf<WindowSizeClass> { error("No window size calculated") }
 
+/**
+ * Returns true if the app is displayed in an expanded state device
+ */
 @Composable
 fun isExpandedScreen() = LocalWindowSize.current.widthSizeClass == WindowWidthSizeClass.Expanded
