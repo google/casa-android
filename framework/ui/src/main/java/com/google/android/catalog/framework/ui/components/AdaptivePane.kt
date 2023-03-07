@@ -60,9 +60,11 @@ internal fun AdaptivePane(
             }
         }
     } else {
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
             start()
         }
     }
