@@ -36,7 +36,11 @@ internal fun AdaptivePane(
     end: @Composable () -> Unit
 ) {
     if (isExpandedScreen()) {
-        Row(Modifier.fillMaxSize()) {
+        Row(
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -47,7 +51,6 @@ internal fun AdaptivePane(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues)
                     .padding(top = 4.dp, end = 4.dp, bottom = 4.dp)
                     .clip(RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.surfaceVariant)
@@ -57,6 +60,10 @@ internal fun AdaptivePane(
             }
         }
     } else {
-        start()
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)) {
+            start()
+        }
     }
 }
