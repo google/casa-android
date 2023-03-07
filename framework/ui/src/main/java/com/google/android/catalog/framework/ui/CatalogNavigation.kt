@@ -53,7 +53,7 @@ internal fun CatalogNavigation(
     ) {
         // Add the home destination
         composable(CATALOG_DESTINATION) {
-            CatalogScreen(samples.toList(), settings) {
+            CatalogScreen(samples.toList(), settings, fragmentManager) {
                 navController.navigate(it.route)
             }
         }

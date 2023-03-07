@@ -18,7 +18,7 @@
 compose-bom = "2023.01.00"
 composeCompiler = "1.4.2"
 composesnapshot = "-" # a single character = no snapshot
-gradlePlugin = "7.4.1"
+gradlePlugin = "7.4.2"
 ktlint = "0.42.1"
 kotlin = "1.8.10"
 ksp = "1.8.10-1.0.9" # Should be updated when kotlin version is updated
@@ -35,7 +35,7 @@ google-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.
 google-ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 
 androidx-core = "androidx.core:core-ktx:1.9.0"
-androidx-annotation = "androidx.annotation:annotation:1.5.0"
+androidx-annotation = "androidx.annotation:annotation:1.6.0"
 androidx-fragment = "androidx.fragment:fragment-ktx:1.5.5"
 androidx-activity = "androidx.activity:activity:1.6.1"
 androidx-activity-compose = "androidx.activity:activity-compose:1.6.1"
@@ -58,7 +58,7 @@ compose-foundation-layout = { module = "androidx.compose.foundation:foundation-l
 compose-material-material3 = { module = "androidx.compose.material3:material3" }
 compose-material-material = { module = "androidx.compose.material:material" }
 compose-material-iconsext = { module = "androidx.compose.material:material-icons-extended" }
-compose-material-window = { module = "androidx.compose.material3:material3-window-size-class" }
+compose-material-window3 = { module = "androidx.compose.material3:material3-window-size-class" }
 compose-animation-animation = { module = "androidx.compose.animation:animation" }
 
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }

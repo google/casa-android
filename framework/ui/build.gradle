@@ -97,7 +97,7 @@ dependencies {
     implementation libs.androidx.navigation.compose
     implementation libs.compose.ui.ui
     implementation libs.compose.material.material3
-    implementation libs.compose.material.window
+    implementation libs.compose.material.window3
     implementation libs.compose.material.iconsext
 
     androidTestImplementation libs.androidx.test.runner
