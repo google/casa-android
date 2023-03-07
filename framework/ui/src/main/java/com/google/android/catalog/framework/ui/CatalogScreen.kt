@@ -28,7 +28,6 @@ import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -43,6 +42,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -52,12 +52,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentManager
 import com.google.android.catalog.framework.base.CatalogSample
 import com.google.android.catalog.framework.base.CatalogTarget
 import com.google.android.catalog.framework.ui.components.AdaptivePane
 import com.google.android.catalog.framework.ui.components.CardItem
 import com.google.android.catalog.framework.ui.components.CatalogTopAppBar
 import com.google.android.catalog.framework.ui.components.FilterTabRow
+import com.google.android.catalog.framework.ui.components.FragmentContainer
 import com.google.android.catalog.framework.ui.components.SearchTopAppBar
 import com.google.android.catalog.framework.ui.components.isExpandedScreen
 
@@ -68,6 +70,7 @@ internal const val CATALOG_DESTINATION = "catalog"
 internal fun CatalogScreen(
     catalogSamples: List<CatalogSample>,
     catalogSettings: CatalogSettings,
+    fragmentManager: FragmentManager,
     launchSample: (CatalogSample) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -119,9 +122,9 @@ internal fun CatalogScreen(
     }
 
     val isExpandedScreen = isExpandedScreen()
-    val saver = listSaver<CatalogSample?, String>(
-        save = { listOf(it?.route.orEmpty()) },
-        restore = { list -> displayedSamples.find { it.route == list.firstOrNull() } }
+    val saver = Saver<CatalogSample?, String>(
+        save = { it?.route.orEmpty() },
+        restore = { item -> displayedSamples.find { it.route == item } }
     )
     var selectedSample by rememberSaveable(isExpandedScreen, stateSaver = saver) {
         mutableStateOf(null)
@@ -170,29 +173,39 @@ internal fun CatalogScreen(
             paddingValues = paddingValues,
             start = {
                 SamplesList(
-                    paddingValues,
                     filters,
                     selectedFilters,
                     displayedSamples,
                     selectedSample,
                     catalogSettings.cardAppearance
                 ) {
-                    if (!isExpandedScreen || it.target !is CatalogTarget.TargetComposable) {
+                    // Activities cannot be shown in split screen, instead always launch them.
+                    if (!isExpandedScreen || it.target is CatalogTarget.TargetActivity) {
                         launchSample(it)
                     }
-                    if (it.target is CatalogTarget.TargetComposable) {
+                    if (it.target !is CatalogTarget.TargetActivity) {
                         selectedSample = it
                     }
                     searchState = false
                 }
             },
             end = {
-                val content =
-                    (selectedSample?.target as? CatalogTarget.TargetComposable)?.composable
-                if (content != null) {
-                    content.invoke()
-                } else {
-                    EmptySample()
+                when (val target = selectedSample?.target) {
+                    is CatalogTarget.TargetFragment -> {
+                        FragmentContainer(
+                            modifier = Modifier.fillMaxSize(),
+                            fragmentManager = fragmentManager,
+                            commit = { id ->
+                                add(id, target.targetClass.java.newInstance())
+                            }
+                        )
+                    }
+
+                    is CatalogTarget.TargetComposable -> {
+                        target.composable()
+                    }
+
+                    else -> EmptySample()
                 }
             }
         )
@@ -209,7 +222,6 @@ private fun EmptySample() {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SamplesList(
-    paddingValues: PaddingValues,
     filters: List<String>,
     selectedFilters: SnapshotStateList<String>,
     displayedSamples: List<CatalogSample>,
@@ -220,7 +232,6 @@ private fun SamplesList(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = paddingValues
     ) {
         item {
             FilterTabRow(filters, selectedFilters) {

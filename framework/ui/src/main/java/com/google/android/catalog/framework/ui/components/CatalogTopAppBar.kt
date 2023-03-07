@@ -105,7 +105,7 @@ fun CatalogTopAppBar(
                         IconButton(onClick = onExpand) {
                             Icon(
                                 imageVector = Icons.Rounded.Fullscreen,
-                                contentDescription = "Search button"
+                                contentDescription = "Fullscreen button"
                             )
                         }
                     }
