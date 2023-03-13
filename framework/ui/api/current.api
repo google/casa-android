@@ -105,7 +105,7 @@ package com.google.android.catalog.framework.ui.components {
   }
 
   public final class CatalogTopAppBarKt {
-    method @androidx.compose.runtime.Composable public static void CatalogTopAppBar(boolean isDualPane, optional com.google.android.catalog.framework.base.CatalogSample? selectedSample, optional kotlin.jvm.functions.Function0<kotlin.Unit> onSearch, optional kotlin.jvm.functions.Function0<kotlin.Unit> onExpand, optional kotlin.jvm.functions.Function0<kotlin.Unit> onBackClick);
+    method @androidx.compose.runtime.Composable public static void CatalogTopAppBar(optional com.google.android.catalog.framework.base.CatalogSample? selectedSample, optional kotlin.jvm.functions.Function0<kotlin.Unit> onSearch, optional kotlin.jvm.functions.Function0<kotlin.Unit> onExpand, optional kotlin.jvm.functions.Function0<kotlin.Unit> onBackClick);
   }
 
   public final class CompositionLocalsKt {
