@@ -133,7 +133,6 @@ private fun SampleScaffold(
         topBar = {
             if (settings.alwaysShowToolbar) {
                 CatalogTopAppBar(
-                    isDualPane = false,
                     selectedSample = sample,
                     onExpand = onExpand,
                     onBackClick = onBackClick

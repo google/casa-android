@@ -48,23 +48,22 @@ import com.google.android.catalog.framework.ui.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CatalogTopAppBar(
-    isDualPane: Boolean,
     selectedSample: CatalogSample? = null,
     onSearch: () -> Unit = {},
     onExpand: () -> Unit = {},
     onBackClick: () -> Unit = {},
 ) {
-    var menuExpanded by remember { mutableStateOf(false) }
-
     val context = LocalContext.current
     val isExpandedScreen = isExpandedScreen()
+    var menuExpanded by remember { mutableStateOf(false) }
+
     fun launchUrl(url: String) {
         check(url.isNotBlank()) {
             "Provided URL is empty. Did you miss adding the base URL?"
         }
 
         // If we are in dual-pane screen expand the sample before launching multi-window
-        if (isDualPane && selectedSample != null) {
+        if (isExpandedScreen && selectedSample != null) {
             onExpand()
         }
         context.startActivity(
@@ -92,7 +91,7 @@ fun CatalogTopAppBar(
         actions = {
             Box {
                 Row(Modifier.animateContentSize()) {
-                    if (selectedSample == null || isDualPane) {
+                    if (isExpandedScreen || selectedSample == null) {
                         IconButton(onClick = onSearch) {
                             Icon(
                                 imageVector = Icons.Rounded.Search,
@@ -101,7 +100,7 @@ fun CatalogTopAppBar(
                         }
                     }
 
-                    if (isDualPane && selectedSample != null) {
+                    if (selectedSample != null && isExpandedScreen) {
                         IconButton(onClick = onExpand) {
                             Icon(
                                 imageVector = Icons.Rounded.Fullscreen,
@@ -175,7 +174,7 @@ fun CatalogTopAppBar(
             }
         },
         navigationIcon = {
-            if (selectedSample != null && !isDualPane) {
+            if (selectedSample != null && !isExpandedScreen) {
                 IconButton(onClick = onBackClick) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack, contentDescription = null

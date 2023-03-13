@@ -160,8 +160,7 @@ internal fun CatalogScreen(
                     )
                 } else {
                     CatalogTopAppBar(
-                        isDualPane = isExpandedScreen,
-                        selectedSample = selectedSample,
+                        selectedSample = if (isExpandedScreen) selectedSample else null,
                         onSearch = { searchState = true },
                         onExpand = { launchSample(selectedSample!!) }
                     )
