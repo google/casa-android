@@ -16,7 +16,9 @@
 
 package com.google.android.catalog.framework.ui
 
+import android.os.Build
 import com.google.android.catalog.framework.base.CatalogSample
+import java.util.Collections
 
 /**
  * Defines certain behavior for the Catalog app UI.
@@ -53,7 +55,11 @@ sealed interface CatalogOrder : Comparator<CatalogSample> {
         override fun compare(sample1: CatalogSample, sample2: CatalogSample): Int {
             val compareBy = compareBy<CatalogSample> { it.name }.run {
                 if (asc) this
-                else this.reversed()
+                else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    this.reversed()
+                } else {
+                    Collections.reverseOrder(this)
+                }
             }
             return compareBy.compare(sample1, sample2)
         }

@@ -18,6 +18,7 @@ package com.google.android.catalog.framework.ui.components
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -72,7 +73,9 @@ fun CatalogTopAppBar(
 
                 // Only launch multi-window if we are in expanded mode
                 if (isExpandedScreen) {
-                    addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT)
+                    }
                     addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
                 }
             }
