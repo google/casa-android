@@ -98,7 +98,7 @@ fun CatalogTopAppBar(
                         IconButton(onClick = onSearch) {
                             Icon(
                                 imageVector = Icons.Rounded.Search,
-                                contentDescription = "Search button"
+                                contentDescription = "Search"
                             )
                         }
                     }
@@ -107,7 +107,7 @@ fun CatalogTopAppBar(
                         IconButton(onClick = onExpand) {
                             Icon(
                                 imageVector = Icons.Rounded.Fullscreen,
-                                contentDescription = "Fullscreen button"
+                                contentDescription = "Fullscreen"
                             )
                         }
                     }
