@@ -180,7 +180,7 @@ fun CatalogTopAppBar(
             if (selectedSample != null && !isExpandedScreen) {
                 IconButton(onClick = onBackClick) {
                     Icon(
-                        imageVector = Icons.Default.ArrowBack, contentDescription = null
+                        imageVector = Icons.Default.ArrowBack, contentDescription = "Back"
                     )
                 }
             }
