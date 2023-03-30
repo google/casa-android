@@ -28,6 +28,7 @@ import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -170,13 +171,14 @@ internal fun CatalogScreen(
     ) { paddingValues ->
         AdaptivePane(
             paddingValues = paddingValues,
-            start = {
+            start = { innerPadding ->
                 SamplesList(
                     filters,
                     selectedFilters,
                     displayedSamples,
                     selectedSample,
-                    catalogSettings.cardAppearance
+                    catalogSettings.cardAppearance,
+                    innerPadding,
                 ) {
                     // Activities cannot be shown in split screen, instead always launch them.
                     if (!isExpandedScreen || it.target is CatalogTarget.TargetActivity) {
@@ -188,11 +190,11 @@ internal fun CatalogScreen(
                     searchState = false
                 }
             },
-            end = {
+            end = { innerPadding ->
                 when (val target = selectedSample?.target) {
                     is CatalogTarget.TargetFragment -> {
                         FragmentContainer(
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = Modifier.fillMaxSize().padding(innerPadding),
                             fragmentManager = fragmentManager,
                             commit = { id ->
                                 add(id, target.targetClass.java.newInstance())
@@ -201,10 +203,12 @@ internal fun CatalogScreen(
                     }
 
                     is CatalogTarget.TargetComposable -> {
-                        target.composable()
+                        Box(modifier = Modifier.padding(innerPadding)) {
+                            target.composable()
+                        }
                     }
 
-                    else -> EmptySample()
+                    else -> EmptySample(Modifier.padding(innerPadding))
                 }
             }
         )
@@ -212,8 +216,8 @@ internal fun CatalogScreen(
 }
 
 @Composable
-private fun EmptySample() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+private fun EmptySample(modifier: Modifier = Modifier) {
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(text = "Select a sample")
     }
 }
@@ -226,10 +230,12 @@ private fun SamplesList(
     displayedSamples: List<CatalogSample>,
     selectedSample: CatalogSample?,
     appearance: CatalogCardAppearance,
+    contentPadding: PaddingValues,
     launchSample: (CatalogSample) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
+        contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         item {
