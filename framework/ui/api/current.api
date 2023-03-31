@@ -1,7 +1,7 @@
 // Signature format: 4.0
 package com.google.android.catalog.framework.ui {
 
-  public class CatalogActivity extends androidx.fragment.app.FragmentActivity {
+  public class CatalogActivity extends androidx.appcompat.app.AppCompatActivity {
     ctor public CatalogActivity();
     method public final java.util.Set<com.google.android.catalog.framework.base.CatalogSample> getCatalogSamples();
     method public com.google.android.catalog.framework.ui.CatalogSettings getSettings();
