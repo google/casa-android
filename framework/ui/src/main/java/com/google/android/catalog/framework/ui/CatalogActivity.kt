@@ -18,6 +18,7 @@ package com.google.android.catalog.framework.ui
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -25,7 +26,6 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.fragment.app.FragmentActivity
 import com.google.android.catalog.framework.base.CatalogSample
 import com.google.android.catalog.framework.ui.components.LocalWindowSize
 import com.google.android.catalog.framework.ui.theme.CatalogTheme
@@ -44,7 +44,7 @@ import javax.inject.Inject
  * class MainActivity : CatalogActivity()
  * ```
  */
-open class CatalogActivity : FragmentActivity() {
+open class CatalogActivity : AppCompatActivity() {
 
     companion object {
         /**

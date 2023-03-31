@@ -15,5 +15,5 @@
   ~ limitations under the License.
 -->
 <resources>
-    <style name="Theme.Casa" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Casa" parent="Theme.Material3.DayNight.NoActionBar" />
 </resources>
