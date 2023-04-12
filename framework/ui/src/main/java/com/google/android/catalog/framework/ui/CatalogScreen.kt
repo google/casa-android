@@ -112,7 +112,6 @@ internal fun CatalogScreen(
                 selectedFilters.isEmpty() ||
                     selectedFilters.any { sample.path.contains(it) } ||
                     sample.tags.any { selectedFilters.contains(it) }
-
             }.filter { sample ->
                 searchTerm.isBlank() ||
                     sample.name.contains(searchTerm, ignoreCase = true) ||
