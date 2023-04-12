@@ -109,15 +109,15 @@ internal fun CatalogScreen(
     val displayedSamples by remember(searchTerm, selectedFilters) {
         derivedStateOf {
             catalogSamples.filter { sample ->
-                if (searchTerm.isBlank()) {
-                    selectedFilters.isEmpty() ||
-                        selectedFilters.any { sample.path.contains(it) } ||
-                        sample.tags.any { selectedFilters.contains(it) }
-                } else {
+                selectedFilters.isEmpty() ||
+                    selectedFilters.any { sample.path.contains(it) } ||
+                    sample.tags.any { selectedFilters.contains(it) }
+
+            }.filter { sample ->
+                searchTerm.isBlank() ||
                     sample.name.contains(searchTerm, ignoreCase = true) ||
-                        sample.description.contains(searchTerm, ignoreCase = true) ||
-                        sample.tags.any { it.equals(searchTerm, ignoreCase = true) }
-                }
+                    sample.description.contains(searchTerm, ignoreCase = true) ||
+                    sample.tags.any { it.equals(searchTerm, ignoreCase = true) }
             }.sortedWith(catalogSettings.order)
         }
     }
