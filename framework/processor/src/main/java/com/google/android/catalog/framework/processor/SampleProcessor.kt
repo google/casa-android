@@ -19,6 +19,7 @@ package com.google.android.catalog.framework.processor
 import androidx.annotation.RequiresApi
 import com.google.android.catalog.framework.annotations.Sample
 import com.google.devtools.ksp.KspExperimental
+import com.google.devtools.ksp.containingFile
 import com.google.devtools.ksp.getAllSuperTypes
 import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.isAnnotationPresent
@@ -32,6 +33,7 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.validate
 
 /**
@@ -56,8 +58,15 @@ class SampleProcessor(
     override fun process(resolver: Resolver): List<KSAnnotated> {
         resolver.getSymbolsWithAnnotation(Sample::class.java.name)
             .filter {
+                val isValid = it.validate { first, second ->
+                    // Skip checking fields of a class since its causing issues with viewBinding
+                    !(first is KSClassDeclaration && second is KSPropertyDeclaration)
+                }
+                if (!isValid) {
+                    logger.warn("Annotated sample is not valid ${it.containingFile?.filePath}")
+                }
                 (it is KSFunctionDeclaration || it is KSClassDeclaration) &&
-                    it.validate() &&
+                    isValid &&
                     !it.isAnnotationPresent(Deprecated::class)
             }
             .forEach { it.accept(visitor, Unit) }
