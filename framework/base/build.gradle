@@ -17,6 +17,14 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id "com.vanniktech.maven.publish" version libs.versions.mavenPublish
+}
+
+import com.vanniktech.maven.publish.SonatypeHost
+
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.DEFAULT)
+    signAllPublications()
 }
 
 android {
@@ -95,5 +103,3 @@ dependencies {
     androidTestImplementation libs.androidx.test.runner
     testImplementation libs.androidx.test.runner
 }
-
-apply plugin: "com.vanniktech.maven.publish"

@@ -14,7 +14,17 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin'
+plugins {
+    id 'kotlin'
+    id "com.vanniktech.maven.publish" version libs.versions.mavenPublish
+}
+
+import com.vanniktech.maven.publish.SonatypeHost
+
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.DEFAULT)
+    signAllPublications()
+}
 
 affectedTestConfiguration {
     jvmTestTask = "test"
@@ -23,5 +33,3 @@ affectedTestConfiguration {
 dependencies {
     api 'javax.inject:javax.inject:1'
 }
-
-apply plugin: "com.vanniktech.maven.publish"

@@ -14,7 +14,17 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin'
+plugins {
+    id 'kotlin'
+    id "com.vanniktech.maven.publish" version libs.versions.mavenPublish
+}
+
+import com.vanniktech.maven.publish.SonatypeHost
+
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.DEFAULT)
+    signAllPublications()
+}
 
 compileKotlin {
     kotlinOptions {
@@ -32,5 +42,3 @@ dependencies {
     implementation libs.androidx.annotation
     implementation libs.google.ksp.api
 }
-
-apply plugin: "com.vanniktech.maven.publish"

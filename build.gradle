@@ -29,8 +29,6 @@ buildscript {
         classpath libs.google.ksp.plugin
         classpath libs.kotlin.gradlePlugin
 
-        classpath libs.gradleMavenPublishPlugin
-
         classpath libs.dokka
 
         classpath libs.metalavaGradle

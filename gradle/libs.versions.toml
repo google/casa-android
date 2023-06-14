@@ -19,6 +19,7 @@ compose-bom = "2023.06.00"
 composeCompiler = "1.4.7"
 composesnapshot = "-" # a single character = no snapshot
 gradlePlugin = "7.4.2"
+mavenPublish = "0.25.2"
 ktlint = "0.42.1"
 kotlin = "1.8.21"
 ksp = "1.8.21-1.0.11" # Should be updated when kotlin version is updated
@@ -29,7 +30,6 @@ navigation = "2.5.3"
 
 [libraries]
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "gradlePlugin" }
-gradleMavenPublishPlugin = "com.vanniktech:gradle-maven-publish-plugin:0.17.0"
 metalavaGradle = "me.tylerbwong.gradle:metalava-gradle:0.1.9"
 google-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 google-ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
@@ -40,8 +40,8 @@ androidx-fragment = "androidx.fragment:fragment-ktx:1.6.0"
 androidx-activity = "androidx.activity:activity:1.7.2"
 androidx-activity-compose = "androidx.activity:activity-compose:1.7.2"
 androidx-startup = "androidx.startup:startup-runtime:1.1.1"
-androidx-navigation-fragment = "androidx.navigation:navigation-fragment:2.5.3"
-androidx-navigation-compose = "androidx.navigation:navigation-compose:2.5.3"
+androidx-navigation-fragment = "androidx.navigation:navigation-fragment:2.6.0"
+androidx-navigation-compose = "androidx.navigation:navigation-compose:2.6.0"
 
 androidx-test-runner = "androidx.test:runner:1.5.2"
 
