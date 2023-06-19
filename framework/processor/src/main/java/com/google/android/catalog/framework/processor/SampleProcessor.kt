@@ -148,7 +148,7 @@ class SampleProcessor(
                     sampleOwners = sample.owners,
                     sampleTarget = target,
                     sampleMinSdk = minSDK,
-                    sampleRoute = "$sampleSource#$sampleFile",
+                    sampleRoute = "$sampleSource-$sampleFile",
                 ).toByteArray()
             )
         }
