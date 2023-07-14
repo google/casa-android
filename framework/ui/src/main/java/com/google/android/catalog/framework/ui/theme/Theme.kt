@@ -48,8 +48,12 @@ private val CatalogLightColorScheme = lightColorScheme(
     background = Color(0xFFFcFcFc),
 )
 
+/**
+ * Used by the CatalogActivity but you can also use it for any sample activity to match the same
+ * theme.
+ */
 @Composable
-internal fun CatalogTheme(
+fun CatalogTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
