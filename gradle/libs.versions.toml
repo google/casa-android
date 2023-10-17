@@ -18,7 +18,7 @@
 compose-bom = "2023.06.00"
 composeCompiler = "1.4.7"
 composesnapshot = "-" # a single character = no snapshot
-gradlePlugin = "7.4.2"
+gradlePlugin = "8.1.2"
 mavenPublish = "0.25.2"
 ktlint = "0.42.1"
 kotlin = "1.8.21"
