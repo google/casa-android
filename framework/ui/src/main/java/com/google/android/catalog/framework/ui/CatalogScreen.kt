@@ -24,7 +24,7 @@ import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -133,12 +133,13 @@ internal fun CatalogScreen(
     Scaffold(
         topBar = {
             AnimatedContent(
+                label = "Top app bar",
                 targetState = searchState,
                 transitionSpec = {
                     if (targetState) {
-                        expandHorizontally { it / 8 } + fadeIn(tween(100)) with fadeOut()
+                        expandHorizontally { it / 8 } + fadeIn(tween(100)) togetherWith fadeOut()
                     } else {
-                        fadeIn(tween(500, delayMillis = 100)) with
+                        fadeIn(tween(500, delayMillis = 100)) togetherWith
                             shrinkHorizontally(tween(400)) { it / 8 } + fadeOut(tween(400))
                     }
                 },
@@ -196,7 +197,10 @@ internal fun CatalogScreen(
                             modifier = Modifier.fillMaxSize().padding(innerPadding),
                             fragmentManager = fragmentManager,
                             commit = { id ->
-                                add(id, target.targetClass.java.newInstance())
+                                add(
+                                    id,
+                                    target.targetClass.java.getDeclaredConstructor().newInstance()
+                                )
                             }
                         )
                     }
