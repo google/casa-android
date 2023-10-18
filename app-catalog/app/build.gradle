@@ -17,8 +17,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.devtools.ksp'
     id 'dagger.hilt.android.plugin'
-    id 'kotlin-kapt'
 }
 
 android {
@@ -75,7 +75,7 @@ dependencies {
 
     // Required by CASA to generate the wiring logic
     implementation libs.hilt.android
-    kapt libs.hilt.compiler
+    ksp libs.hilt.compiler
 
     // Include all available samples dynamically importend in settings.gradle
     gradle.ext.samples.each {
