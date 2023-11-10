@@ -1,7 +1,7 @@
 // Signature format: 4.0
 package com.google.android.catalog.framework.annotations {
 
-  @kotlin.annotation.MustBeDocumented @kotlin.annotation.Retention(kotlin.annotation.AnnotationRetention) @kotlin.annotation.Target(allowedTargets={kotlin.annotation.AnnotationTarget, kotlin.annotation.AnnotationTarget}) public @interface Sample {
+  @dagger.hilt.GeneratesRootInput @kotlin.annotation.MustBeDocumented @kotlin.annotation.Retention(kotlin.annotation.AnnotationRetention) @kotlin.annotation.Target(allowedTargets={kotlin.annotation.AnnotationTarget, kotlin.annotation.AnnotationTarget}) public @interface Sample {
     method public abstract String description();
     method public abstract String documentation();
     method public abstract String name();
