@@ -16,6 +16,8 @@
 
 package com.google.android.catalog.framework.annotations
 
+import dagger.hilt.GeneratesRootInput
+
 /**
  * Add this annotation to a parameterless `@Compose` function, fragment or activity classes to
  * create a new sample entry-point that will be automatically included in the Catalog app.
@@ -32,6 +34,7 @@ package com.google.android.catalog.framework.annotations
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
+@GeneratesRootInput
 annotation class Sample(
     val name: String,
     val description: String,

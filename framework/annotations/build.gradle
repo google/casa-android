@@ -32,4 +32,5 @@ affectedTestConfiguration {
 
 dependencies {
     api 'javax.inject:javax.inject:1'
+    implementation libs.hilt.core
 }
