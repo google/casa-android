@@ -6,12 +6,12 @@ package com.google.android.catalog.framework.processor {
     method public java.util.List<com.google.devtools.ksp.symbol.KSAnnotated> process(com.google.devtools.ksp.processing.Resolver resolver);
   }
 
-  public final class SampleProcessorKt {
-  }
-
   public final class SampleProcessorProvider implements com.google.devtools.ksp.processing.SymbolProcessorProvider {
     ctor public SampleProcessorProvider();
     method public com.google.devtools.ksp.processing.SymbolProcessor create(com.google.devtools.ksp.processing.SymbolProcessorEnvironment environment);
+  }
+
+  public final class SampleVisitorKt {
   }
 
 }

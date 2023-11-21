@@ -17,18 +17,18 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.devtools.ksp'
     id 'dagger.hilt.android.plugin'
-    id 'kotlin-kapt'
 }
 
 android {
     namespace 'com.google.android.catalog.app'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.google.android.catalog.app"
         minSdk 21
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -42,11 +42,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     buildFeatures {
@@ -75,7 +75,7 @@ dependencies {
 
     // Required by CASA to generate the wiring logic
     implementation libs.hilt.android
-    kapt libs.hilt.compiler
+    ksp libs.hilt.compiler
 
     // Include all available samples dynamically importend in settings.gradle
     gradle.ext.samples.each {

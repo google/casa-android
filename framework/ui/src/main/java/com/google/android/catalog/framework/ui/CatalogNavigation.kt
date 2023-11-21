@@ -104,7 +104,7 @@ private fun NavGraphBuilder.addTargets(
                         modifier = Modifier.fillMaxSize(),
                         fragmentManager = fragmentManager,
                         commit = { id ->
-                            add(id, target.targetClass.java.newInstance())
+                            add(id, target.targetClass.java.getDeclaredConstructor().newInstance())
                         }
                     )
                 }
