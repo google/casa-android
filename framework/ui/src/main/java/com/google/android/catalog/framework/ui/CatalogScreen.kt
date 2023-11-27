@@ -196,12 +196,9 @@ internal fun CatalogScreen(
                         FragmentContainer(
                             modifier = Modifier.fillMaxSize().padding(innerPadding),
                             fragmentManager = fragmentManager,
-                            commit = { id ->
-                                add(
-                                    id,
-                                    target.targetClass.java.getDeclaredConstructor().newInstance()
-                                )
-                            }
+                            createFragment = {
+                                target.targetClass.java.getDeclaredConstructor().newInstance()
+                            },
                         )
                     }
 

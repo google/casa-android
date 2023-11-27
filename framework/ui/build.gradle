@@ -66,7 +66,6 @@ android {
             includeAndroidResources = true
         }
         animationsDisabled true
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
     packagingOptions {
         resources {
@@ -110,5 +109,10 @@ dependencies {
     implementation libs.compose.material.iconsext
 
     androidTestImplementation libs.androidx.test.runner
+    androidTestImplementation libs.androidx.test.core.ktx
+    androidTestImplementation libs.androidx.test.junit
+    androidTestImplementation libs.androidx.test.espresso.core
+    androidTestImplementation libs.truth
+    androidTestImplementation libs.compose.ui.test.junit4
     testImplementation libs.androidx.test.runner
 }
