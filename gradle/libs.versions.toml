@@ -27,6 +27,8 @@ coroutines = "1.7.3"
 hilt = "2.48.1"
 androidxtest = "1.4.0"
 navigation = "2.5.3"
+androidxJunit = "1.1.5"
+espresso = "3.5.1"
 
 [libraries]
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "gradlePlugin" }
@@ -44,6 +46,9 @@ androidx-navigation-fragment = "androidx.navigation:navigation-fragment:2.7.5"
 androidx-navigation-compose = "androidx.navigation:navigation-compose:2.7.5"
 
 androidx-test-runner = "androidx.test:runner:1.5.2"
+androidx-test-core-ktx = "androidx.test:core-ktx:1.5.0"
+androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
+androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
 
 mdc = "com.google.android.material:material:1.10.0"
 

@@ -17,34 +17,41 @@
 package com.google.android.catalog.framework.ui.components
 
 import android.view.View
-import android.view.ViewGroup
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 
 @Composable
 internal fun FragmentContainer(
     modifier: Modifier = Modifier,
     fragmentManager: FragmentManager,
-    commit: FragmentTransaction.(containerId: Int) -> Unit
+    createFragment: () -> Fragment,
 ) {
-    val containerId by rememberSaveable {
-        mutableStateOf(View.generateViewId())
-    }
-    AndroidView(modifier = modifier, factory = { context ->
-        fragmentManager.findFragmentById(containerId)?.view?.also {
-            (it.parent as? ViewGroup)?.removeView(
-                it
-            )
-        } ?: FragmentContainerView(context).apply { id = containerId }.also {
-            fragmentManager.commit { commit(it.id) }
+    val containerId = remember { View.generateViewId() }
+    AndroidView(
+        modifier = modifier,
+        factory = { context ->
+            FragmentContainerView(context).also { view ->
+                view.id = containerId
+            }
+        },
+    )
+    DisposableEffect(fragmentManager) {
+        fragmentManager.commit {
+            replace(containerId, createFragment())
         }
-    }, update = {})
+        onDispose {
+            fragmentManager.findFragmentById(containerId)?.let { fragment ->
+                fragmentManager.commit(allowStateLoss = true) {
+                    remove(fragment)
+                }
+            }
+        }
+    }
 }
