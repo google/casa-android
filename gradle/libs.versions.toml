@@ -15,14 +15,14 @@
 #
 
 [versions]
-compose-bom = "2023.10.01"
-composeCompiler = "1.5.3"
+compose-bom = "2024.02.00"
+composeCompiler = "1.5.9"
 composesnapshot = "-" # a single character = no snapshot
-gradlePlugin = "8.1.4"
+gradlePlugin = "8.2.2"
 mavenPublish = "0.25.2"
 ktlint = "0.42.1"
-kotlin = "1.9.10"
-ksp = "1.9.10-1.0.13" # Should be updated when kotlin version is updated
+kotlin = "1.9.22"
+ksp = "1.9.22-1.0.17" # Should be updated when kotlin version is updated
 coroutines = "1.7.3"
 hilt = "2.48.1"
 androidxtest = "1.4.0"
@@ -37,20 +37,20 @@ google-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.
 google-ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 
 androidx-core = "androidx.core:core-ktx:1.12.0"
-androidx-annotation = "androidx.annotation:annotation:1.7.0"
+androidx-annotation = "androidx.annotation:annotation:1.7.1"
 androidx-fragment = "androidx.fragment:fragment-ktx:1.6.2"
-androidx-activity = "androidx.activity:activity:1.8.1"
-androidx-activity-compose = "androidx.activity:activity-compose:1.8.1"
+androidx-activity = "androidx.activity:activity:1.8.2"
+androidx-activity-compose = "androidx.activity:activity-compose:1.8.2"
 androidx-startup = "androidx.startup:startup-runtime:1.1.1"
-androidx-navigation-fragment = "androidx.navigation:navigation-fragment:2.7.5"
-androidx-navigation-compose = "androidx.navigation:navigation-compose:2.7.5"
+androidx-navigation-fragment = "androidx.navigation:navigation-fragment:2.7.7"
+androidx-navigation-compose = "androidx.navigation:navigation-compose:2.7.7"
 
 androidx-test-runner = "androidx.test:runner:1.5.2"
 androidx-test-core-ktx = "androidx.test:core-ktx:1.5.0"
 androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
 
-mdc = "com.google.android.material:material:1.10.0"
+mdc = "com.google.android.material:material:1.11.0"
 
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 compose-ui-ui = { module = "androidx.compose.ui:ui" }

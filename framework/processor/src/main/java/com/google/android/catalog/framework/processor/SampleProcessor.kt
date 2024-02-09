@@ -46,8 +46,10 @@ class SampleProcessor(
 
     private val visitor = SampleVisitor(logger, codeGenerator)
 
+    private val visited = mutableListOf<KSAnnotated>()
+
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        resolver.getSymbolsWithAnnotation(Sample::class.java.name)
+        val symbols = resolver.getSymbolsWithAnnotation(Sample::class.java.name)
             .filter {
                 val isValid = it.validate { first, second ->
                     // Skip checking fields of a class since its causing issues with viewBinding
@@ -58,10 +60,14 @@ class SampleProcessor(
                 }
                 (it is KSFunctionDeclaration || it is KSClassDeclaration) &&
                     isValid &&
+                    it !in visited &&
                     !it.isAnnotationPresent(Deprecated::class)
             }
-            .forEach { it.accept(visitor, Unit) }
+        for (symbol in symbols) {
+            symbol.accept(visitor, Unit)
+        }
+        visited.addAll(symbols)
 
-        return emptyList()
+        return symbols.toList()
     }
 }

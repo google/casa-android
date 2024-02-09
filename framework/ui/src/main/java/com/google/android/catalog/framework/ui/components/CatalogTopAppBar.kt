@@ -23,7 +23,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.rounded.Fullscreen
 import androidx.compose.material.icons.rounded.Search
@@ -180,7 +180,7 @@ fun CatalogTopAppBar(
             if (selectedSample != null && !isExpandedScreen) {
                 IconButton(onClick = onBackClick) {
                     Icon(
-                        imageVector = Icons.Default.ArrowBack, contentDescription = "Back"
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back"
                     )
                 }
             }
