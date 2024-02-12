@@ -29,6 +29,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CardDefaults
@@ -97,7 +98,7 @@ internal fun CardItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = label, style = MaterialTheme.typography.labelLarge)
-                Icon(Icons.Rounded.KeyboardArrowRight, "Forward")
+                Icon(Icons.AutoMirrored.Rounded.KeyboardArrowRight, "Forward")
             }
             if (appearance.description > 0) {
                 Text(
