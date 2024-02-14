@@ -77,7 +77,7 @@ dependencies {
     implementation libs.hilt.android
     ksp libs.hilt.compiler
 
-    // Include all available samples dynamically importend in settings.gradle
+    // Include all available samples dynamically imported in settings.gradle
     gradle.ext.samples.each {
         implementation project("$it")
     }
