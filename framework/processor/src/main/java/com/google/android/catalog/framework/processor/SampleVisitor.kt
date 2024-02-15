@@ -38,7 +38,6 @@ internal class SampleVisitor(
     override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
         val target = classDeclaration.getAllSuperTypes().firstNotNullOfOrNull {
             val className = it.declaration.qualifiedName?.asString().orEmpty()
-            logger.warn(className)
             when (className) {
                 "android.app.Activity" -> {
                     "targetActivity<${classDeclaration.toFullPath()}>()"
@@ -83,6 +82,7 @@ internal class SampleVisitor(
         val file = codeGenerator.createNewFile(
             dependencies = Dependencies(
                 aggregating = true,
+                functionSample.containingFile!!
             ),
             packageName = packageName,
             fileName = "${sampleFile}Module"

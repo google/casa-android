@@ -49,25 +49,26 @@ class SampleProcessor(
     private val visited = mutableListOf<KSAnnotated>()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        val symbols = resolver.getSymbolsWithAnnotation(Sample::class.java.name)
-            .filter {
-                val isValid = it.validate { first, second ->
+        val (validSymbols, invalidSymbols) = resolver
+            .getSymbolsWithAnnotation(Sample::class.java.name)
+            .partition { symbol ->
+                val isValid = symbol.validate { data, declaration ->
                     // Skip checking fields of a class since its causing issues with viewBinding
-                    !(first is KSClassDeclaration && second is KSPropertyDeclaration)
+                    !(data is KSClassDeclaration && declaration is KSPropertyDeclaration)
                 }
                 if (!isValid) {
-                    logger.warn("Annotated sample is not valid ${it.containingFile?.filePath}")
+                    logger.warn("Annotated sample is not valid ${symbol.containingFile?.filePath}")
                 }
-                (it is KSFunctionDeclaration || it is KSClassDeclaration) &&
+                (symbol is KSFunctionDeclaration || symbol is KSClassDeclaration) &&
                     isValid &&
-                    it !in visited &&
-                    !it.isAnnotationPresent(Deprecated::class)
+                    symbol !in visited &&
+                    !symbol.isAnnotationPresent(Deprecated::class)
             }
-        for (symbol in symbols) {
+        for (symbol in validSymbols) {
             symbol.accept(visitor, Unit)
         }
-        visited.addAll(symbols)
+        visited.addAll(validSymbols)
 
-        return symbols.toList()
+        return invalidSymbols
     }
 }
